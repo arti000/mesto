@@ -11,6 +11,7 @@
   -moz-transition: 0.3s;
   -ms-transition: 0.3s;
   -o-transition: 0.3s;
+  margin-bottom: 36px;
 }
 
 .profile__add-button:hover {
@@ -23,5 +24,6 @@
   .profile__add-button {
     width: 150px;
     background-size: 22px;
+    margin: 0;
   }
 }

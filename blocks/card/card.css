@@ -1,0 +1,15 @@
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.card:last-of-type {
+  margin-bottom: 48px;
+}
+
+@media screen and (min-width: 615px) {
+  .card:last-of-type {
+    margin: 0;
+  }
+}
