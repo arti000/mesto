@@ -1,6 +1,14 @@
 .profile__info {
-  position: relative;
   width: 282px;
+  display: grid;
+  grid-template-columns: 235px 37px;
+  grid-template-rows: 26px 14px;
+  grid-template-areas:
+  "title icon"
+  "subtitle subtitle";
+  row-gap: 14px;
+  column-gap: 10px;
+  margin-bottom: 36px;
 }
 
 @media screen and (min-width: 914px) {

@@ -1,10 +1,12 @@
 .profile__title {
-  margin: 0 0 14px;
+  margin: 0;
   font-weight: 500;
   font-size: 27px;
   line-height: 33px;
   text-align: center;
   color: #fff;
+  grid-area: title;
+  text-align: right;
 }
 
 @media screen and (min-width: 914px) {
