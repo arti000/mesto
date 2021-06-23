@@ -1,8 +1,8 @@
 .header {
   max-width: 880px;
-  padding: 28px 0 32px 27px;
   border-bottom: 1px solid rgba(54, 54, 54, 0.7);
   box-sizing: border-box;
+  padding: 28px 0 32px 27px;
 }
 
 @media screen and (min-width: 914px) {
