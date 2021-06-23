@@ -1,9 +1,15 @@
 .header__logo {
+  width: 104px;
   height: 25px;
+  display: inline-block;
+  background-image: url('../../../images/header-logo.svg');
+  background-repeat: no-repeat;
+  background-size: auto;
 }
 
 @media screen and (min-width: 914px) {
   .header__logo {
+    width: 142px;
     height: 33px;
   }
 }
