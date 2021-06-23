@@ -4,12 +4,17 @@
   display: inline-block;
   background-image: url('../../../images/header-logo.svg');
   background-repeat: no-repeat;
-  background-size: auto;
+  background-size: 104px 25px;
+}
+
+.header__logo:hover {
+  
 }
 
 @media screen and (min-width: 914px) {
   .header__logo {
     width: 142px;
     height: 33px;
+    background-size: 142px 33px;
   }
 }
