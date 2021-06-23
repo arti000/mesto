@@ -10,7 +10,6 @@
   overflow: hidden;
   max-width: 244px;
   grid-area: title;
-  text-align: center;
 }
 
 @media screen and (min-width: 914px) {

@@ -21,7 +21,6 @@
     grid-template-areas:
     "title icon"
     "subtitle subtitle";
-    box-sizing: border-box;
     margin: 0;
   }
 }
