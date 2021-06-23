@@ -1,11 +1,13 @@
 .profile__subtitle {
-  min-width: 282px;
+  max-width: 282px;
   margin: 0;
   font-size: 14px;
   line-height: 17px;
   text-align: center;
   color: #fff;
-  grid-area: subtitle;
+  margin-bottom: 36px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 @media screen and (min-width: 914px) {
@@ -14,5 +16,6 @@
     font-size: 18px;
     line-height: 22px;
     text-align: left;
+    max-width: 336px;
   }
 }

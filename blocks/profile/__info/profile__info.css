@@ -1,18 +1,14 @@
 .profile__info {
-  width: 282px;
-  display: grid;
-  grid-template-columns: 235px 37px;
-  grid-template-rows: 26px 14px;
-  grid-template-areas:
-  "title icon"
-  "subtitle subtitle";
-  row-gap: 14px;
-  column-gap: 10px;
-  margin-bottom: 36px;
+  max-width: 282px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 14px;
 }
 
 @media screen and (min-width: 914px) {
   .profile__info {
-    width: 336px;
+    max-width: 336px;
+    margin-bottom: 16px;
   }
 }

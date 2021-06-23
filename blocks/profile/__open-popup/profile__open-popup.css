@@ -11,8 +11,7 @@
   -moz-transition: 0.3s;
   -ms-transition: 0.3s;
   -o-transition: 0.3s;
-  grid-area: icon;
-  align-self: end;
+  margin-bottom: -3px;
 }
 
 .profile__open-popup:hover {
@@ -26,7 +25,6 @@
     width: 24px;
     height: 24px;
     background-size: 10px;
-    top: 15px;
-    right: 0;
+    margin-bottom: -5px;
   }
 }
