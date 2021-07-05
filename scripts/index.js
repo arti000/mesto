@@ -13,6 +13,7 @@ const addPopupOpenButtonElement = document.querySelector('.profile__add-button')
 const addPopupCloseButtonElement = addPopupElement.querySelector('.add-popup__close');
 const cardNameInput = addPopupElement.querySelector('.add-popup__input_type_title');
 const linkInput = addPopupElement.querySelector('.add-popup__input_type_subtitle');
+const cardsList = document.querySelector('.cards');
 
 //Переменные, связанные со значениями в секции profile
 const nameProfile = document.querySelector('.profile__title');
@@ -51,13 +52,34 @@ const closePopupByClickOverlay = function (event) {
   closePopup();
 }
 
+//Функция, скрывающая попап при клике на затемненную область.
+const closeAddPopupByClickOverlay = function (event) {
+  if (event.target !== event.currentTarget) {
+    return;
+  }
+  closeAddPopup();
+}
+
 //Функция, сохраняющая новые значения и закрывающая попап.
 const popupSubmitHandler = function (evt) {
   evt.preventDefault();
   nameProfile.textContent = nameInput.value;
   jobProfile.textContent = jobInput.value;
   closePopup();
-  }
+}
+
+//Функция, сохраняющая значения карточки и закрывающая ее.
+const addPopupSubmitHandler = function (evt) {
+  evt.preventDefault();
+  const item = cardTemplate;
+  renderCard(item);
+  const cardTitle = document.querySelector('.card__title');
+  const cardImage = document.querySelector('.card__image');
+  cardTitle.textContent = cardNameInput.value;
+  cardImage.src = linkInput.value;
+  cardImage.alt = cardNameInput.value;
+  closeAddPopup();
+}
 
 //Обработчики, открывающие и закрывающие попап после нажатия.
 popupOpenButtonElement.addEventListener('click', pasteValuesToPopupInputs);
@@ -73,40 +95,54 @@ document.addEventListener('keyup', function (event) {
 //Обработчики, открывающие и закрывающие попап добавления карточки после нажатия
 addPopupOpenButtonElement.addEventListener('click', openAddPopup);
 addPopupCloseButtonElement.addEventListener('click', closeAddPopup);
-// addFormElement.addEventListener('submit', popupSubmitHandler);
-// addPopupElement.addEventListener('click', closePopupByClickOverlay);
-// document.addEventListener('keyup', function (event) {
-  // if (event.code === 'Escape') {
-    // closePopup();
-  // }
-// });
-
+addFormElement.addEventListener('submit', addPopupSubmitHandler);
+addPopupElement.addEventListener('click', closeAddPopupByClickOverlay);
+document.addEventListener('keyup', function (event) {
+  if (event.code === 'Escape') {
+    closeAddPopup();
+  }
+});
 
 const initialCards = [
   {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    name: 'Москва',
+    link: '../images/msk.jpg'
   },
   {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    name: 'Санкт-Петербург',
+    link: '../images/piter.jpg'
   },
   {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    name: 'Волгоград',
+    link: '../images/vlg.jpg'
   },
   {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    name: 'Петрозаводск',
+    link: '../images/ptrzvdsk.jpg'
   },
   {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    name: 'Кандалакша',
+    link: '../images/kandalaksha.jpg'
   },
   {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    name: 'Республика Карелия',
+    link: '../images/oneghzskaya.jpg'
   }
 ];
 
-function addCard() {}
+const cardTemplate = document.querySelector('.card-template').content;
+
+function renderCard(item) {
+  const cardElement = cardTemplate.cloneNode(true);
+  const cardImageElement = cardElement.querySelector('.card__image');
+  const cardTitleElement = cardElement.querySelector('.card__title');
+  cardTitleElement.textContent = item.name;
+  cardImageElement.src = item.link;
+  cardImageElement.alt = item.name;
+  cardsList.prepend(cardElement);
+}
+
+initialCards.forEach(function (item) {
+  renderCard(item);
+})
+
