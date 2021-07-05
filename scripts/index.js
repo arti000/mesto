@@ -1,22 +1,39 @@
 //Переменные, связанные с попапом
-let popupElement = document.querySelector('.popup');
-let formElement = popupElement.querySelector('.popup__content')
-let popupOpenButtonElement = document.querySelector('.profile__open-popup');
-let popupCloseButtonElement = popupElement.querySelector('.popup__close');
-let nameInput = popupElement.querySelector('.popup__input_type_title');
-let jobInput = popupElement.querySelector('.popup__input_type_subtitle');
+const popupElement = document.querySelector('.popup');
+const formElement = popupElement.querySelector('.popup__content')
+const popupOpenButtonElement = document.querySelector('.profile__open-popup');
+const popupCloseButtonElement = popupElement.querySelector('.popup__close');
+const nameInput = popupElement.querySelector('.popup__input_type_title');
+const jobInput = popupElement.querySelector('.popup__input_type_subtitle');
+
+//Переменные, связанные с попапом добавления карточки
+const addPopupElement = document.querySelector('.add-popup');
+const addFormElement = addPopupElement.querySelector('.add-popup__content')
+const addPopupOpenButtonElement = document.querySelector('.profile__add-button');
+const addPopupCloseButtonElement = addPopupElement.querySelector('.add-popup__close');
+const cardNameInput = addPopupElement.querySelector('.add-popup__input_type_title');
+const linkInput = addPopupElement.querySelector('.add-popup__input_type_subtitle');
 
 //Переменные, связанные со значениями в секции profile
-let nameProfile = document.querySelector('.profile__title');
-let jobProfile = document.querySelector('.profile__subtitle');
+const nameProfile = document.querySelector('.profile__title');
+const jobProfile = document.querySelector('.profile__subtitle');
 
-//Функции, делающие видимым и скрывающая попап.
+//Функции, делающие видимым и скрывающая попап редактирования профиля.
 const openPopup = function () {
   popupElement.classList.add('popup_opened');
 }
 
 const closePopup = function () {
   popupElement.classList.remove('popup_opened');
+}
+
+//Функции, открывающие и закрывающие попап добавления карточки
+const openAddPopup = function () {
+  addPopupElement.classList.add('add-popup_opened');
+}
+
+const closeAddPopup = function () {
+  addPopupElement.classList.remove('add-popup_opened');
 }
 
 //Функция, вставляющая значения со страницы в попап при открытии.
@@ -42,7 +59,7 @@ const popupSubmitHandler = function (evt) {
   closePopup();
   }
 
-//Обработчики, открывающие и закрываюие всплывающее окно после нажатия.
+//Обработчики, открывающие и закрывающие попап после нажатия.
 popupOpenButtonElement.addEventListener('click', pasteValuesToPopupInputs);
 popupCloseButtonElement.addEventListener('click', closePopup);
 formElement.addEventListener('submit', popupSubmitHandler);
@@ -52,6 +69,18 @@ document.addEventListener('keyup', function (event) {
     closePopup();
   }
 });
+
+//Обработчики, открывающие и закрывающие попап добавления карточки после нажатия
+addPopupOpenButtonElement.addEventListener('click', openAddPopup);
+addPopupCloseButtonElement.addEventListener('click', closeAddPopup);
+// addFormElement.addEventListener('submit', popupSubmitHandler);
+// addPopupElement.addEventListener('click', closePopupByClickOverlay);
+// document.addEventListener('keyup', function (event) {
+  // if (event.code === 'Escape') {
+    // closePopup();
+  // }
+// });
+
 
 const initialCards = [
   {
@@ -79,3 +108,5 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
+
+function addCard() {}
