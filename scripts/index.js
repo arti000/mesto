@@ -19,6 +19,8 @@ const cardsList = document.querySelector('.cards');
 const nameProfile = document.querySelector('.profile__title');
 const jobProfile = document.querySelector('.profile__subtitle');
 
+
+
 //Функции, делающие видимым и скрывающая попап редактирования профиля.
 const openPopup = function () {
   popupElement.classList.add('popup_opened');
@@ -134,11 +136,11 @@ const cardTemplate = document.querySelector('.card-template').content;
 
 function renderCard(item) {
   const cardElement = cardTemplate.cloneNode(true);
-  const cardImageElement = cardElement.querySelector('.card__image');
-  const cardTitleElement = cardElement.querySelector('.card__title');
-  cardTitleElement.textContent = item.name;
-  cardImageElement.src = item.link;
-  cardImageElement.alt = item.name;
+  const cardImage = cardElement.querySelector('.card__image');
+  const cardTitle = cardElement.querySelector('.card__title');
+  cardTitle.textContent = item.name;
+  cardImage.src = item.link;
+  cardImage.alt = item.name;
   cardsList.prepend(cardElement);
 }
 
@@ -146,3 +148,12 @@ initialCards.forEach(function (item) {
   renderCard(item);
 })
 
+//Кнопка лайка
+const likeButtonElement = document.querySelector('.card__like-button');
+
+//Функция нажатия лайка
+const likeButtonClick = function () {
+  likeButtonElement.classList.toggle('card__like-button_active')
+}
+
+likeButtonElement.addEventListener('click', likeButtonClick);
