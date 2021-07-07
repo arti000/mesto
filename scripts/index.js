@@ -10,12 +10,12 @@ function closePopup(popup) {
 //ПОПАП РЕДАКТИРОВАНИЯ ПРОФИЛЯ
 
 //Переменные, связанные с попапом редактирования
-const popupEditElement = document.querySelector('.edit');
-const formElement = popupEditElement.querySelector('.edit__content')
+const popupEditElement = document.querySelector('.edit-popup');
+const formElement = popupEditElement.querySelector('.popup__content')
 const popupOpenButtonElement = document.querySelector('.profile__open-popup');
-const popupCloseButtonElement = popupEditElement.querySelector('.edit__close');
-const nameInput = popupEditElement.querySelector('.edit__input_type_title');
-const jobInput = popupEditElement.querySelector('.edit__input_type_subtitle');
+const popupCloseButtonElement = popupEditElement.querySelector('.popup__close');
+const nameInput = popupEditElement.querySelector('.popup__input_type_title');
+const jobInput = popupEditElement.querySelector('.popup__input_type_subtitle');
 
 //Переменные, связанные со значениями в секции profile
 const nameProfile = document.querySelector('.profile__title');
@@ -58,11 +58,11 @@ document.addEventListener('keyup', function (event) {
 
 //Переменные, связанные с add-popup
 const addPopupElement = document.querySelector('.add-popup');
-const addFormElement = addPopupElement.querySelector('.add-popup__content')
+const addFormElement = addPopupElement.querySelector('.popup__content')
 const addPopupOpenButtonElement = document.querySelector('.profile__add-button');
-const addPopupCloseButtonElement = addPopupElement.querySelector('.add-popup__close');
-const cardNameInput = addPopupElement.querySelector('.add-popup__input_type_title');
-const linkInput = addPopupElement.querySelector('.add-popup__input_type_subtitle');
+const addPopupCloseButtonElement = addPopupElement.querySelector('.popup__close');
+const cardNameInput = addPopupElement.querySelector('.popup__input_type_title');
+const linkInput = addPopupElement.querySelector('.popup__input_type_subtitle');
 const cardsList = document.querySelector('.cards');
 const cardTemplate = document.querySelector('.card-template').content;
 
@@ -166,9 +166,9 @@ document.addEventListener('keyup', function (event) {
 
 //Переменные связанные с попапом картинкой
 const imagePopupElement = document.querySelector('.image-popup');
-const imagePopupCloseButtonElement = imagePopupElement.querySelector('.image-popup__close');
-const imagePopupImageElement = imagePopupElement.querySelector('.image-popup__image');
-const imagePopupTitle = imagePopupElement.querySelector('.image-popup__title');
+const imagePopupCloseButtonElement = imagePopupElement.querySelector('.popup__close');
+const imagePopupImageElement = imagePopupElement.querySelector('.popup__image');
+const imagePopupTitle = imagePopupElement.querySelector('.popup__title');
 
 imagePopupCloseButtonElement.addEventListener('click', function () {
   closePopup(imagePopupElement)
