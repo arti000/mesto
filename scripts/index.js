@@ -70,6 +70,10 @@ function renderCard(item) {
   const cardElement = cardTemplate.cloneNode(true);
   const cardImage = cardElement.querySelector('.card__image');
   const cardTitle = cardElement.querySelector('.card__title');
+  cardElement.querySelector('.card__like-button').addEventListener('click', function (evt) {
+    const likeElement = evt.target;
+    likeElement.classList.toggle('card__like-button_active')
+  });
   cardTitle.textContent = item.name;
   cardImage.src = item.link;
   cardImage.alt = item.name;
@@ -157,19 +161,6 @@ document.addEventListener('keyup', function (event) {
     closePopup(addPopupElement);
   }
 });
-
-//КНОПКА ЛАЙКА
-
-//Переменная
-const likeButtonElement = document.querySelector('.card__like-button');
-
-//Функция нажатия лайка
-const likeButtonClick = function () {
-  likeButtonElement.classList.toggle('card__like-button_active')
-}
-
-//Обработчик
-likeButtonElement.addEventListener('click', likeButtonClick);
 
 //ПОПАП ОТКРЫТИЯ КАРТИНКИ
 
