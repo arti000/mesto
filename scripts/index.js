@@ -10,12 +10,12 @@ function closePopup(popup) {
 //ПОПАП РЕДАКТИРОВАНИЯ ПРОФИЛЯ
 
 //Переменные, связанные с попапом редактирования
-const popupEditElement = document.querySelector('.edit-popup');
-const formElement = popupEditElement.querySelector('.edit-popup__content')
+const popupEditElement = document.querySelector('.edit');
+const formElement = popupEditElement.querySelector('.edit__content')
 const popupOpenButtonElement = document.querySelector('.profile__open-popup');
-const popupCloseButtonElement = popupEditElement.querySelector('.edit-popup__close');
-const nameInput = popupEditElement.querySelector('.edit-popup__input_type_title');
-const jobInput = popupEditElement.querySelector('.edit-popup__input_type_subtitle');
+const popupCloseButtonElement = popupEditElement.querySelector('.edit__close');
+const nameInput = popupEditElement.querySelector('.edit__input_type_title');
+const jobInput = popupEditElement.querySelector('.edit__input_type_subtitle');
 
 //Переменные, связанные со значениями в секции profile
 const nameProfile = document.querySelector('.profile__title');
