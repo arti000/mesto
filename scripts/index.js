@@ -15,11 +15,13 @@ const cardNameInput = addPopupElement.querySelector('.add-popup__input_type_titl
 const linkInput = addPopupElement.querySelector('.add-popup__input_type_subtitle');
 const cardsList = document.querySelector('.cards');
 
+function setEventListeners(cardElement) {
+  cardElement.querySelector('.card__remove-button').addEventListener('click', handleDelete)
+}
+
 //Переменные, связанные со значениями в секции profile
 const nameProfile = document.querySelector('.profile__title');
 const jobProfile = document.querySelector('.profile__subtitle');
-
-
 
 //Функции, делающие видимым и скрывающая попап редактирования профиля.
 const openPopup = function () {
@@ -141,6 +143,7 @@ function renderCard(item) {
   cardTitle.textContent = item.name;
   cardImage.src = item.link;
   cardImage.alt = item.name;
+  setEventListeners(cardElement);
   cardsList.prepend(cardElement);
 }
 
@@ -157,3 +160,10 @@ const likeButtonClick = function () {
 }
 
 likeButtonElement.addEventListener('click', likeButtonClick);
+
+//Удаление карточки
+
+function handleDelete(event) {
+  const cardElement = event.target.closest('.card');
+  cardElement.remove();
+}
