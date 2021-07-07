@@ -87,27 +87,27 @@ function renderCard(item) {
 const initialCards = [
   {
     name: 'Москва',
-    link: '../images/msk.jpg'
+    link: 'images/msk.jpg'
   },
   {
     name: 'Санкт-Петербург',
-    link: '../images/piter.jpg'
+    link: 'images/piter.jpg'
   },
   {
     name: 'Волгоград',
-    link: '../images/vlg.jpg'
+    link: 'images/vlg.jpg'
   },
   {
     name: 'Петрозаводск',
-    link: '../images/ptrzvdsk.jpg'
+    link: 'images/ptrzvdsk.jpg'
   },
   {
     name: 'Кандалакша',
-    link: '../images/kandalaksha.jpg'
+    link: 'images/kandalaksha.jpg'
   },
   {
     name: 'Республика Карелия',
-    link: '../images/oneghzskaya.jpg'
+    link: 'images/oneghzskaya.jpg'
   }
 ];
 
