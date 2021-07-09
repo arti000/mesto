@@ -80,7 +80,7 @@ const setEventListeners = function (cardElement) {
 
 //Функция, создающая карточку
 const createCard = function (name, link) {
-  const cardElement = cardTemplate.cloneNode(true);
+  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   const cardImage = cardElement.querySelector('.card__image');
   const cardTitle = cardElement.querySelector('.card__title');
   cardImage.src = link;
@@ -103,12 +103,7 @@ initialCards.forEach(function (item) {
 //Функция, сохраняющая значения карточки и закрывающая ее.
 const handleNewCardPopupSubmit = function (evt) {
   evt.preventDefault();
-  const item = cardTemplate;
-  createCard(item.name, item.link)
-  item.name = cardNameInput.value;
-  item.link = linkInput.value;
-  item.name = cardNameInput.value;
-  addCard(item);
+  addCard({name: cardNameInput.value, link: linkInput.value});
   newCardFormElement.reset()
   closePopup(newCardPopupElement);
 };
