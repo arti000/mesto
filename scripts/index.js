@@ -71,8 +71,8 @@ const handleProfileFormSubmit = function (evt) {
   closePopup(popupProfileElement);
 }
 
-//Функция, навешивающая обработчик
-const setEventListeners = function (cardElement) {
+//Функция, навешивающая обработчики на карточку
+const setCardEventListeners = function (cardElement) {
   cardElement.querySelector('.card__remove-button').addEventListener('click', handleDelete);
   cardElement.querySelector('.card__like-button').addEventListener('click', pushLikeButton);
   cardElement.querySelector('.card__image').addEventListener('click', openPreviewPopup);
@@ -86,7 +86,7 @@ const createCard = function (name, link) {
   cardImage.src = link;
   cardImage.alt = name;
   cardTitle.textContent = name;
-  setEventListeners(cardElement);
+  setCardEventListeners(cardElement);
   return cardElement;
 }
 
