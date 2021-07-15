@@ -29,10 +29,20 @@ const previewPopupTitle = previewPopupElement.querySelector('.popup__title');
 //Универсальные функции открытия и закрытия попапа
 const openPopup = function (popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener("keyup", (event) => {
+    if (event.code === 'Escape') {
+      closePopup(popup);
+    }
+  });
 }
 
 const closePopup = function (popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener("keyup", (event) => {
+    if (event.code === 'Escape') {
+      closePopup(popup);
+    }
+  });
 }
 
 //Удаление карточки
@@ -85,18 +95,6 @@ const handleProfileFormSubmit = function (evt) {
   closePopup(popupProfileElement);
 }
 
-//Фунцкия, навешивающая обработчики на попап
-
-/*
-function setPopupEventListeners(popupSelector) {
-   const popup = document.querySelector...
-   function closePopupByClickOnEsc(event) {
-        if (event.code === 'Escape') {
-            closePopup();
-        }
-    };
-*/
-
 //Функция, навешивающая обработчики на карточку
 const setCardEventListeners = function (cardElement) {
   cardElement.querySelector('.card__remove-button').addEventListener('click', handleDelete);
@@ -129,7 +127,7 @@ initialCards.forEach(function (item) {
 //Функция, сохраняющая значения карточки и закрывающая ее.
 const handleNewCardPopupSubmit = function (evt) {
   evt.preventDefault();
-  addCard({name: cardNameInput.value, link: linkInput.value});
+  addCard({ name: cardNameInput.value, link: linkInput.value });
   newCardFormElement.reset();
   closePopup(newCardPopupElement);
 };

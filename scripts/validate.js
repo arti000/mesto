@@ -1,5 +1,4 @@
 //Функции валидации
-
 const config = {
   formSelector: '.popup__content',
   sectionSelector: '.popup__section',
