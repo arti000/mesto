@@ -132,6 +132,13 @@ const handleNewCardPopupSubmit = function (evt) {
   closePopup(newCardPopupElement);
 };
 
+//Функция, закрывающая добавляющая новую карточку при нажатии на клавишу Enter
+function addNewCardByEnter (evt) {
+  if (evt.key === 'Enter') {
+    handleNewCardPopupSubmit(evt);
+  }
+}
+
 //Обработчики, открывающие и закрывающие popupProfile после нажатия.
 popupProfileOpenButtonElement.addEventListener('click', pasteValuesToPopupInputs);
 popupProfileCloseButtonElement.addEventListener('click', function () {
@@ -157,6 +164,8 @@ newCardPopupElement.addEventListener('click', function (event) {
   }
   closePopup(newCardPopupElement);
 });
+cardNameInput.addEventListener('keydown', addNewCardByEnter);
+linkInput.addEventListener('keydown', addNewCardByEnter);
 
 //Обработчики закрывающие previewPopup
 previewPopupCloseButtonElement.addEventListener('click', function () {
