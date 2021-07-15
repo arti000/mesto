@@ -60,7 +60,21 @@ const openPreviewPopup = function (event) {
 const pasteValuesToPopupInputs = function () {
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
+  const submitButtonElement = popupProfileElement.querySelector(config.submitButtonSelector);
+  submitButtonElement.removeAttribute('disabled', true);
+  hideInputError(nameInput, config);
+  hideInputError(jobInput, config);
   openPopup(popupProfileElement);
+}
+
+//Функция открытия попапа создания карточки
+const openNewCardPopup = function () {
+  const submitButtonElement = newCardPopupElement.querySelector(config.submitButtonSelector);
+  submitButtonElement.setAttribute('disabled', true);
+  hideInputError(cardNameInput, config);
+  hideInputError(linkInput, config);
+  newCardFormElement.reset();
+  openPopup(newCardPopupElement);
 }
 
 //Функция, сохраняющая новые значения и закрывающая popupProfile.
@@ -70,6 +84,18 @@ const handleProfileFormSubmit = function (evt) {
   jobProfile.textContent = jobInput.value;
   closePopup(popupProfileElement);
 }
+
+//Фунцкия, навешивающая обработчики на попап
+
+/*
+function setPopupEventListeners(popupSelector) {
+   const popup = document.querySelector...
+   function closePopupByClickOnEsc(event) {
+        if (event.code === 'Escape') {
+            closePopup();
+        }
+    };
+*/
 
 //Функция, навешивающая обработчики на карточку
 const setCardEventListeners = function (cardElement) {
@@ -104,14 +130,14 @@ initialCards.forEach(function (item) {
 const handleNewCardPopupSubmit = function (evt) {
   evt.preventDefault();
   addCard({name: cardNameInput.value, link: linkInput.value});
-  newCardFormElement.reset()
+  newCardFormElement.reset();
   closePopup(newCardPopupElement);
 };
 
 //Обработчики, открывающие и закрывающие popupProfile после нажатия.
 popupProfileOpenButtonElement.addEventListener('click', pasteValuesToPopupInputs);
 popupProfileCloseButtonElement.addEventListener('click', function () {
-  closePopup(popupProfileElement)
+  closePopup(popupProfileElement);
 });
 profileFormElement.addEventListener('submit', handleProfileFormSubmit);
 popupProfileElement.addEventListener('click', function (event) {
@@ -122,11 +148,9 @@ popupProfileElement.addEventListener('click', function (event) {
 });
 
 //Обработчики, открывающие и закрывающие попап добавления карточки после нажатия
-popupNewCardOpenButtonElement.addEventListener('click', function () {
-  openPopup(newCardPopupElement)
-});
+popupNewCardOpenButtonElement.addEventListener('click', openNewCardPopup);
 popupNewCardCloseButtonElement.addEventListener('click', function () {
-  closePopup(newCardPopupElement)
+  closePopup(newCardPopupElement);
 });
 newCardFormElement.addEventListener('submit', handleNewCardPopupSubmit);
 newCardPopupElement.addEventListener('click', function (event) {
