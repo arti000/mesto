@@ -26,7 +26,7 @@ const hideInputError = (inputElement, config) => {
 //6. Создаем функцию которая проверяет валиден ли инпут или нет
 const checkInputValidity = (inputElement, config) => {
   const isInputNotValid = !inputElement.validity.valid;
-  if(isInputNotValid) {
+  if (isInputNotValid) {
     const errorMessage = inputElement.validationMessage;
     showInputError(inputElement, errorMessage, config);
   } else {

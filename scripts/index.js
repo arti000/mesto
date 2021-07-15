@@ -133,7 +133,7 @@ const handleNewCardPopupSubmit = function (evt) {
 };
 
 //Функция, закрывающая добавляющая новую карточку при нажатии на клавишу Enter
-function addNewCardByEnter (evt) {
+function addNewCardByEnter(evt) {
   if (evt.key === 'Enter') {
     handleNewCardPopupSubmit(evt);
   }
