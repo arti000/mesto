@@ -53,7 +53,7 @@ const handleDelete = function (event) {
 
 //Кнопка лайка
 const pushLikeButton = function (event) {
-  const likeElement = event.target.closest('.card__like-button');
+  const likeElement = event.target;
   likeElement.classList.toggle('card__like-button_active');
 };
 
