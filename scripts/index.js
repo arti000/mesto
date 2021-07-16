@@ -29,21 +29,20 @@ const previewPopupTitle = previewPopupElement.querySelector('.popup__title');
 //Универсальные функции открытия и закрытия попапа
 const openPopup = function (popup) {
   popup.classList.add('popup_opened');
-  document.addEventListener("keyup", (event) => {
-    if (event.code === 'Escape') {
-      closePopup(popup);
-    }
-  });
+  document.addEventListener("keyup", closePopupbyClickEsc);
 }
 
 const closePopup = function (popup) {
   popup.classList.remove('popup_opened');
-  document.removeEventListener("keyup", (event) => {
-    if (event.code === 'Escape') {
-      closePopup(popup);
-    }
-  });
+  document.removeEventListener("keyup", closePopupbyClickEsc);
 }
+
+const closePopupbyClickEsc = (event) => {
+  const popupOpened = document.querySelector('.popup_opened')
+  if (event.code === 'Escape') {
+    closePopup(popupOpened);
+  }
+};
 
 //Удаление карточки
 const handleDelete = function (event) {
