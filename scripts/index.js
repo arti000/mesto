@@ -69,20 +69,14 @@ const openPreviewPopup = function (event) {
 const pasteValuesToPopupInputs = function () {
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
-  const submitButtonElement = popupProfileElement.querySelector(config.submitButtonSelector);
-  submitButtonElement.removeAttribute('disabled', true);
-  hideInputError(nameInput, config);
-  hideInputError(jobInput, config);
+  getFormReadyForNewLaunch(popupProfileElement, config);
   openPopup(popupProfileElement);
 }
 
 //Функция открытия попапа создания карточки
 const openNewCardPopup = function () {
-  const submitButtonElement = newCardPopupElement.querySelector(config.submitButtonSelector);
-  submitButtonElement.setAttribute('disabled', true);
-  hideInputError(cardNameInput, config);
-  hideInputError(linkInput, config);
   newCardFormElement.reset();
+  getFormReadyForNewLaunch(newCardPopupElement, config);
   openPopup(newCardPopupElement);
 }
 

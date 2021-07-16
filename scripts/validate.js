@@ -9,6 +9,16 @@ const config = {
   errorClass: 'popup__input-error_type_active'
 }
 
+//Фунцкция, которая подгатавливает форму к первому запуску
+const getFormReadyForNewLaunch = (formElement, config) => {
+  const submitButtonElement = formElement.querySelector(config.submitButtonSelector);
+  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
+  inputList.forEach(inputElement => {
+    hideInputError(inputElement, config);
+  });
+  toggleButtonState(inputList, submitButtonElement);
+}
+
 const showInputError = (inputElement, errorMessage, config) => {
   const formSectionElement = inputElement.closest(config.sectionSelector);
   const errorElement = formSectionElement.querySelector(config.inputErrorSelector);
