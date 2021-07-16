@@ -29,19 +29,28 @@ const previewPopupTitle = previewPopupElement.querySelector('.popup__title');
 //Универсальные функции открытия и закрытия попапа
 const openPopup = function (popup) {
   popup.classList.add('popup_opened');
-  document.addEventListener("keyup", closePopupbyClickEsc);
-}
+  document.addEventListener("keyup", closePopupByClickEsc);
+};
 
 const closePopup = function (popup) {
   popup.classList.remove('popup_opened');
-  document.removeEventListener("keyup", closePopupbyClickEsc);
-}
+  document.removeEventListener("keyup", closePopupByClickEsc);
+};
 
-const closePopupbyClickEsc = (event) => {
+//Функция открытия и закрытия попапа при нажатии на Esc
+const closePopupByClickEsc = (event) => {
   const popupOpened = document.querySelector('.popup_opened')
   if (event.code === 'Escape') {
     closePopup(popupOpened);
   }
+};
+
+//Функция закрытия попапа при нажатии на оверлей
+const closePopupByClickOverlay = (event) => {
+  const popupOpened = document.querySelector('.popup_opened')
+  if (event.target === event.currentTarget) {
+    closePopup(popupOpened);
+  };
 };
 
 //Удаление карточки
@@ -124,25 +133,13 @@ const handleNewCardPopupSubmit = function (evt) {
   closePopup(newCardPopupElement);
 };
 
-//Функция, закрывающая добавляющая новую карточку при нажатии на клавишу Enter
-function addNewCardByEnter(evt) {
-  if (evt.key === 'Enter') {
-    handleNewCardPopupSubmit(evt);
-  }
-}
-
 //Обработчики, открывающие и закрывающие popupProfile после нажатия.
 popupProfileOpenButtonElement.addEventListener('click', pasteValuesToPopupInputs);
 popupProfileCloseButtonElement.addEventListener('click', function () {
   closePopup(popupProfileElement);
 });
 profileFormElement.addEventListener('submit', handleProfileFormSubmit);
-popupProfileElement.addEventListener('click', function (event) {
-  if (event.target !== event.currentTarget) {
-    return;
-  }
-  closePopup(popupProfileElement);
-});
+popupProfileElement.addEventListener('click', closePopupByClickOverlay);
 
 //Обработчики, открывающие и закрывающие попап добавления карточки после нажатия
 popupNewCardOpenButtonElement.addEventListener('click', openNewCardPopup);
@@ -150,22 +147,10 @@ popupNewCardCloseButtonElement.addEventListener('click', function () {
   closePopup(newCardPopupElement);
 });
 newCardFormElement.addEventListener('submit', handleNewCardPopupSubmit);
-newCardPopupElement.addEventListener('click', function (event) {
-  if (event.target !== event.currentTarget) {
-    return;
-  }
-  closePopup(newCardPopupElement);
-});
-cardNameInput.addEventListener('keydown', addNewCardByEnter);
-linkInput.addEventListener('keydown', addNewCardByEnter);
+newCardPopupElement.addEventListener('click', closePopupByClickOverlay);
 
 //Обработчики закрывающие previewPopup
 previewPopupCloseButtonElement.addEventListener('click', function () {
   closePopup(previewPopupElement)
 });
-previewPopupElement.addEventListener('click', function (event) {
-  if (event.target !== event.currentTarget) {
-    return;
-  }
-  closePopup(previewPopupElement);
-});
+previewPopupElement.addEventListener('click', closePopupByClickOverlay);
