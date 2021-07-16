@@ -128,7 +128,6 @@ initialCards.forEach(function (item) {
 const handleNewCardPopupSubmit = function (evt) {
   evt.preventDefault();
   addCard({ name: cardNameInput.value, link: linkInput.value });
-  newCardFormElement.reset();
   closePopup(newCardPopupElement);
 };
 
