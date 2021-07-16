@@ -59,7 +59,7 @@ const pushLikeButton = function (event) {
 
 //Открытие previewPopup
 const openPreviewPopup = function (event) {
-  const imageElement = event.target.closest('.card__image');
+  const imageElement = event.target;
   previewPopupImageElement.src = imageElement.src;
   previewPopupImageElement.alt = imageElement.alt;
   previewPopupTitle.textContent = imageElement.alt;
