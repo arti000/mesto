@@ -39,16 +39,16 @@ const closePopup = function (popup) {
 
 //Функция открытия и закрытия попапа при нажатии на Esc
 const closePopupByClickEsc = (event) => {
-  const popupOpened = document.querySelector('.popup_opened')
   if (event.code === 'Escape') {
+    const popupOpened = document.querySelector('.popup_opened');
     closePopup(popupOpened);
   }
 };
 
 //Функция закрытия попапа при нажатии на оверлей
 const closePopupByClickOverlay = (event) => {
-  const popupOpened = document.querySelector('.popup_opened')
   if (event.target === event.currentTarget) {
+    const popupOpened = document.querySelector('.popup_opened');
     closePopup(popupOpened);
   };
 };
@@ -75,7 +75,7 @@ const openPreviewPopup = function (event) {
 }
 
 //Функция, вставляющая значения со страницы в popupProfile при открытии.
-const pasteValuesToPopupInputs = function () {
+const pasteValuesToNewCardPopupInputs = function () {
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
   getFormReadyForNewLaunch(popupProfileElement, config);
@@ -134,7 +134,7 @@ const handleNewCardPopupSubmit = function (evt) {
 };
 
 //Обработчики, открывающие и закрывающие popupProfile после нажатия.
-popupProfileOpenButtonElement.addEventListener('click', pasteValuesToPopupInputs);
+popupProfileOpenButtonElement.addEventListener('click', pasteValuesToNewCardPopupInputs);
 popupProfileCloseButtonElement.addEventListener('click', function () {
   closePopup(popupProfileElement);
 });
