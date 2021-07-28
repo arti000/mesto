@@ -53,19 +53,19 @@ const closePopupByClickOverlay = (event) => {
   };
 };
 
-//Удаление карточки
+//Удаление карточки +
 const handleDelete = function (event) {
   const cardElement = event.target.closest('.card');
   cardElement.remove();
 };
 
-//Кнопка лайка
+//Кнопка лайка +
 const pushLikeButton = function (event) {
   const likeElement = event.target;
   likeElement.classList.toggle('card__like-button_active');
 };
 
-//Открытие previewPopup
+//Открытие previewPopup +
 const openPreviewPopup = function (event) {
   const imageElement = event.target;
   previewPopupImageElement.src = imageElement.src;
@@ -97,14 +97,14 @@ const handleProfileFormSubmit = function (evt) {
   closePopup(popupProfileElement);
 }
 
-//Функция, навешивающая обработчики на карточку
+//Функция, навешивающая обработчики на карточку +
 const setCardEventListeners = function (cardElement) {
   cardElement.querySelector('.card__remove-button').addEventListener('click', handleDelete);
   cardElement.querySelector('.card__like-button').addEventListener('click', pushLikeButton);
   cardElement.querySelector('.card__image').addEventListener('click', openPreviewPopup);
 }
 
-//Функция, создающая карточку
+//Функция, создающая карточку +
 const createCard = function (name, link) {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   const cardImage = cardElement.querySelector('.card__image');
