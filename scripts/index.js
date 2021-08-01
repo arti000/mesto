@@ -1,5 +1,6 @@
 //Импортируем class Card
-import {Card} from './card.js';
+import { Card } from './Card.js';
+import { getFormReadyForNewLaunch, config } from './validate.js';
 
 //Переменные, связанные с попапом редактирования
 const popupProfileElement = document.querySelector('.edit-popup');
@@ -56,7 +57,7 @@ const closePopupByClickOverlay = (event) => {
 };
 
 //Функция, вставляющая значения со страницы в popupProfile при открытии.
-const pasteValuesToNewCardPopupInputs = function () {
+const pasteValuesToPopupProfileInputs = function () {
   nameInput.value = nameProfile.textContent;
   jobInput.value = jobProfile.textContent;
   getFormReadyForNewLaunch(popupProfileElement, config);
@@ -98,7 +99,7 @@ const handleNewCardPopupSubmit = function (evt) {
 };
 
 //Обработчики, открывающие и закрывающие popupProfile после нажатия.
-popupProfileOpenButtonElement.addEventListener('click', pasteValuesToNewCardPopupInputs);
+popupProfileOpenButtonElement.addEventListener('click', pasteValuesToPopupProfileInputs);
 popupProfileCloseButtonElement.addEventListener('click', function () {
   closePopup(popupProfileElement);
 });
