@@ -1,3 +1,6 @@
+//Импортируем class Card
+import {Card} from './card.js';
+
 //Переменные, связанные с попапом редактирования
 const popupProfileElement = document.querySelector('.edit-popup');
 const profileFormElement = popupProfileElement.querySelector('.popup__content')
@@ -18,13 +21,11 @@ const popupNewCardCloseButtonElement = newCardPopupElement.querySelector('.popup
 const cardNameInput = newCardPopupElement.querySelector('.popup__input_type_title');
 const linkInput = newCardPopupElement.querySelector('.popup__input_type_subtitle');
 const cardsList = document.querySelector('.cards');
-const cardTemplate = document.querySelector('.card-template').content;
 
 //Переменные, связанные с попапом картинкой
 const previewPopupElement = document.querySelector('.image-popup');
 const previewPopupCloseButtonElement = previewPopupElement.querySelector('.popup__close');
-const previewPopupImageElement = previewPopupElement.querySelector('.popup__image');
-const previewPopupTitle = previewPopupElement.querySelector('.popup__title');
+
 
 //Универсальные функции открытия и закрытия попапа
 const openPopup = function (popup) {
@@ -36,6 +37,7 @@ const closePopup = function (popup) {
   popup.classList.remove('popup_opened');
   document.removeEventListener("keyup", closePopupByClickEsc);
 };
+
 
 //Функция открытия и закрытия попапа при нажатии на Esc
 const closePopupByClickEsc = (event) => {
@@ -52,27 +54,6 @@ const closePopupByClickOverlay = (event) => {
     closePopup(popupOpened);
   };
 };
-
-//Удаление карточки +
-const handleDelete = function (event) {
-  const cardElement = event.target.closest('.card');
-  cardElement.remove();
-};
-
-//Кнопка лайка +
-const pushLikeButton = function (event) {
-  const likeElement = event.target;
-  likeElement.classList.toggle('card__like-button_active');
-};
-
-//Открытие previewPopup +
-const openPreviewPopup = function (event) {
-  const imageElement = event.target;
-  previewPopupImageElement.src = imageElement.src;
-  previewPopupImageElement.alt = imageElement.alt;
-  previewPopupTitle.textContent = imageElement.alt;
-  openPopup(previewPopupElement);
-}
 
 //Функция, вставляющая значения со страницы в popupProfile при открытии.
 const pasteValuesToNewCardPopupInputs = function () {
@@ -97,39 +78,22 @@ const handleProfileFormSubmit = function (evt) {
   closePopup(popupProfileElement);
 }
 
-//Функция, навешивающая обработчики на карточку +
-const setCardEventListeners = function (cardElement) {
-  cardElement.querySelector('.card__remove-button').addEventListener('click', handleDelete);
-  cardElement.querySelector('.card__like-button').addEventListener('click', pushLikeButton);
-  cardElement.querySelector('.card__image').addEventListener('click', openPreviewPopup);
-}
-
-//Функция, создающая карточку +
-const createCard = function (name, link) {
-  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-  const cardImage = cardElement.querySelector('.card__image');
-  const cardTitle = cardElement.querySelector('.card__title');
-  cardImage.src = link;
-  cardImage.alt = name;
-  cardTitle.textContent = name;
-  setCardEventListeners(cardElement);
-  return cardElement;
-}
-
 //Функция, добавляющая карточку в DOM
-function addCard(item) {
-  cardsList.prepend(createCard(item.name, item.link));
+function addCard(item, cardSelector) {
+  const card = new Card(item, cardSelector);
+  const cardElement = card.createCard();
+  cardsList.prepend(cardElement);
 }
 
 //Добавление начальных карточек
 initialCards.forEach(function (item) {
-  addCard(item);
+  addCard(item, '.card-template');
 });
 
 //Функция, сохраняющая значения карточки и закрывающая ее.
 const handleNewCardPopupSubmit = function (evt) {
   evt.preventDefault();
-  addCard({ name: cardNameInput.value, link: linkInput.value });
+  addCard({ name: cardNameInput.value, link: linkInput.value }, '.card-template');
   closePopup(newCardPopupElement);
 };
 
@@ -154,3 +118,5 @@ previewPopupCloseButtonElement.addEventListener('click', function () {
   closePopup(previewPopupElement)
 });
 previewPopupElement.addEventListener('click', closePopupByClickOverlay);
+
+export {openPopup, previewPopupElement};

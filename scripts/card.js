@@ -1,4 +1,6 @@
-class Card {
+import {previewPopupElement, openPopup} from './index.js';
+
+export class Card {
 
   //конструктор принимает на вход имя и ссылку
   constructor(data, cardSelector) {
@@ -10,17 +12,17 @@ class Card {
   //Метод, копирующий разметку
   _getTemplate() {
     const cardElement = document
-      .querySelector(this._cardSelector)
-      .content
-      .querySelector('.card')
-      .cloneNode(true);
+    .querySelector(this._cardSelector)
+    .content
+    .querySelector('.card')
+    .cloneNode(true);
     return cardElement;
   }
 
   //Метод, который вставит данные в разметку и подготовит карточку к публикации
-  _createCard() {
+  createCard() {
 
-    //Запишим разметку в приватное поле, чтобы другие переменные получили к ней доступ
+    //Запишем разметку в приватное поле, чтобы другие переменные получили к ней доступ
     this._element = this._getTemplate();
 
     //Затем найдем картинку и ее заголовок в элементе
@@ -45,6 +47,8 @@ class Card {
   }
 
   _openPreviewPopup() {
+    const previewPopupImageElement = previewPopupElement.querySelector('.popup__image');
+    const previewPopupTitle = previewPopupElement.querySelector('.popup__title');
     const imageElement = this._element.querySelector('.card__image');
     previewPopupImageElement.src = imageElement.src;
     previewPopupImageElement.alt = imageElement.alt;

@@ -9,7 +9,9 @@ const config = {
   errorClass: 'popup__input-error_type_active'
 }
 
-//Фунцкция, которая подгатавливает форму к первому запуску
+
+
+//Функция, которая подгатавливает форму к первому запуску
 const getFormReadyForNewLaunch = (formElement, config) => {
   const submitButtonElement = formElement.querySelector(config.submitButtonSelector);
   const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
