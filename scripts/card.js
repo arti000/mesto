@@ -2,7 +2,7 @@ import {previewPopupElement, openPopup} from './index.js';
 
 export class Card {
 
-  //конструктор принимает на вход имя и ссылку
+  //Конструктор принимает на вход имя и ссылку
   constructor(data, cardSelector) {
     this._link = data.link;
     this._name = data.name;
@@ -33,19 +33,21 @@ export class Card {
     //Далее необходимо навесить на карточку обработчики
     this._setEventListeners();
 
+    //Теперь вернем карточку
     return this._element;
   }
 
-  //Удаление карточки
+  //Метод удаления карточки
   _handleDelete() {
     this._element.closest('.card').remove();
   };
 
-  //Кнопка лайка
+  //Метод кнопки лайка
   _pushLikeButton() {
     this._element.querySelector('.card__like-button').classList.toggle('card__like-button_active');
   }
 
+  //Метод открытия увеличенной картинки
   _openPreviewPopup() {
     const previewPopupImageElement = previewPopupElement.querySelector('.popup__image');
     const previewPopupTitle = previewPopupElement.querySelector('.popup__title');
@@ -56,6 +58,7 @@ export class Card {
     openPopup(previewPopupElement);
   }
 
+  //Метод навешивания обработчиков
   _setEventListeners() {
     this._element.querySelector('.card__remove-button')
     .addEventListener('click', () => { this._handleDelete(); });

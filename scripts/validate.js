@@ -1,6 +1,6 @@
 import { FormValidator } from "./FormValidator.js";
 
-//Функции валидации
+//Объект наш горемычный^-^
 const config = {
   formSelector: '.popup__content',
   sectionSelector: '.popup__section',
@@ -11,13 +11,14 @@ const config = {
   errorClass: 'popup__input-error_type_active'
 }
 
+//Даешь каждому рабочему по колхознице, а каждой форме по валидации ★★★
 const formList = Array.from(document.querySelectorAll(config.formSelector));
 formList.forEach(formElement => {
   const form = new FormValidator(config, formElement);
   form.enableValidation();
   });
 
-
+//Функция подготавливающая форму к запуску
 const getFormReadyForNewLaunch = (formElement, objectSelector) => {
   const submitButtonElement = formElement.querySelector(objectSelector.submitButtonSelector);
   const inputList = Array.from(formElement.querySelectorAll(objectSelector.inputSelector));
@@ -32,4 +33,4 @@ const getFormReadyForNewLaunch = (formElement, objectSelector) => {
   submitButtonElement.setAttribute('disabled', true);
 }
 
-export {config, getFormReadyForNewLaunch}
+export {config, getFormReadyForNewLaunch};
