@@ -1,6 +1,5 @@
 //Импортируем class Card
 import { Card } from './Сard.js';
-import { getFormReadyForNewLaunch, config } from './validate.js';
 import { initialCards } from './initial-сards.js';
 import { FormValidator } from "./FormValidator.js";
 
