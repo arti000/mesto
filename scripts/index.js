@@ -1,6 +1,7 @@
 //Импортируем class Card
-import { Card } from './Card.js';
+import { Card } from './Сard.js';
 import { getFormReadyForNewLaunch, config } from './validate.js';
+import { initialCards } from './initial-сards.js';
 
 //Переменные, связанные с попапом редактирования
 const popupProfileElement = document.querySelector('.edit-popup');

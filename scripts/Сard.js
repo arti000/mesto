@@ -61,10 +61,10 @@ export class Card {
   //Метод навешивания обработчиков
   _setEventListeners() {
     this._element.querySelector('.card__remove-button')
-    .addEventListener('click', () => { this._handleDelete(); });
+    .addEventListener('click', () => this._handleDelete());
     this._element.querySelector('.card__like-button')
-    .addEventListener('click', () => { this._pushLikeButton(); });
+    .addEventListener('click', () => this._pushLikeButton());
     this._element.querySelector('.card__image')
-    .addEventListener('click', () => { this._openPreviewPopup(); });
+    .addEventListener('click', () => this._openPreviewPopup());
   }
 }
