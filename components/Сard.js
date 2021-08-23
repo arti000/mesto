@@ -1,4 +1,4 @@
-import {previewPopupElement, openPopup} from './index.js';
+import {previewPopupElement, openPopup} from '../pages/index.js';
 
 export class Card {
 
