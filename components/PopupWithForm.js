@@ -6,11 +6,15 @@ export default class PopupWithImage extends Popup {
   }
 
   _getInputValues() {
-
+    const cardElement = {
+      name: cardNameInput.value,
+      link: linkInput.value,
+      alt: cardNameInput.value
+    };
   }
 
   submitForm() {
-    
+    this._formSubmit();
   }
 
   close() {

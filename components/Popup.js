@@ -5,21 +5,22 @@ export default class Popup {
 
   open() {
     this._popup.classList.add("popup_opened");
+    this.setEventListeners();
   }
 
   close() {
     this._popup.classList.remove("popup_opened");
   }
 
-  _handleEscClose(event) {
+  _handleEscClose = (event) => {
     if (event.code === "Escape") {
-      this._popup.close();
+      this.close();
     }
   }
 
-  _handleOverlayClose(event) {
+  _handleOverlayClose = (event) => {
     if (event.target === event.currentTarget) {
-      this._popup.close();
+      this.close();
     }
   }
 
@@ -27,7 +28,7 @@ export default class Popup {
     this._popup
     .querySelector(".popup__close")
     addEventListener("click", () => {
-      this._popup.close();
+      this.close();
     });
   }
 }
