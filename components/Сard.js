@@ -1,12 +1,13 @@
 import {previewPopupElement, openPopup} from '../pages/index.js';
 
-export class Card {
+export default class Card {
 
   //Конструктор принимает на вход имя и ссылку
-  constructor(data, cardSelector) {
+  constructor(data, cardSelector, handleCardClick) {
     this._link = data.link;
     this._name = data.name;
     this._cardSelector = cardSelector;
+    this._handleCardClick = handleCardClick;
   }
 
   //Метод, копирующий разметку
@@ -47,24 +48,11 @@ export class Card {
     this._element.querySelector('.card__like-button').classList.toggle('card__like-button_active');
   }
 
-  //Метод открытия увеличенной картинки
-  _openPreviewPopup() {
-    const previewPopupImageElement = previewPopupElement.querySelector('.popup__image');
-    const previewPopupTitle = previewPopupElement.querySelector('.popup__title');
-    const imageElement = this._element.querySelector('.card__image');
-    previewPopupImageElement.src = imageElement.src;
-    previewPopupImageElement.alt = imageElement.alt;
-    previewPopupTitle.textContent = imageElement.alt;
-    openPopup(previewPopupElement);
-  }
-
   //Метод навешивания обработчиков
   _setEventListeners() {
     this._element.querySelector('.card__remove-button')
     .addEventListener('click', () => this._handleDelete());
     this._element.querySelector('.card__like-button')
     .addEventListener('click', () => this._pushLikeButton());
-    this._element.querySelector('.card__image')
-    .addEventListener('click', () => this._openPreviewPopup());
   }
 }

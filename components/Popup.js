@@ -30,5 +30,6 @@ export default class Popup {
     addEventListener("click", () => {
       this.close();
     });
+    
   }
 }
