@@ -1,6 +1,6 @@
 //Импортируем class Card
 import Card from "../components/Сard.js";
-import initialCards from "../utils/initial-сards.js";
+import { initialCards } from "../utils/initial-сards.js";
 import FormValidator from "../components/FormValidator.js";
 import Popup from "../components/Popup.js";
 import PopupWithForm from "../components/PopupWithForm.js";
@@ -8,178 +8,162 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import Section from "../components/Section.js";
 import UserInfo from "../components/UserInfo.js";
 
-//Объект c селекторами
-const config = {
-  formSelector: ".popup__content",
-  sectionSelector: ".popup__section",
-  inputSelector: ".popup__input",
-  inputErrorSelector: ".popup__input-error",
-  submitButtonSelector: ".popup__submit",
-  inputErrorClass: "popup__input_type_error",
-  errorClass: "popup__input-error_type_active",
-};
+import {
+  popupProfileElement,
+  profileFormElement,
+  popupProfileOpenButtonElement,
+  popupProfileCloseButtonElement,
+  nameInput,
+  jobInput,
+  nameProfile,
+  jobProfile,
+  newCardPopupElement,
+  newCardFormElement,
+  popupNewCardOpenButtonElement,
+  popupNewCardCloseButtonElement,
+  cardNameInput,
+  linkInput,
+  cardsList,
+  previewPopupElement,
+  previewPopupCloseButtonElement,
+  config,
+  cardListSelector
+} from "../utils/constants.js";
 
-//Переменные, связанные с попапом редактирования
-const popupProfileElement = document.querySelector(".edit-popup");
-const profileFormElement = popupProfileElement.querySelector(".popup__content");
-const popupProfileOpenButtonElement = document.querySelector(
-  ".profile__open-popup"
-);
-const popupProfileCloseButtonElement =
-  popupProfileElement.querySelector(".popup__close");
-const nameInput = popupProfileElement.querySelector(".popup__input_type_title");
-const jobInput = popupProfileElement.querySelector(
-  ".popup__input_type_subtitle"
-);
 
-//Переменные, связанные со значениями в секции profile
-const nameProfile = document.querySelector(".profile__title");
-const jobProfile = document.querySelector(".profile__subtitle");
-
-//Переменные, связанные с newCardPopup
-const newCardPopupElement = document.querySelector(".add-popup");
-const newCardFormElement = newCardPopupElement.querySelector(".popup__content");
-const popupNewCardOpenButtonElement = document.querySelector(
-  ".profile__add-button"
-);
-const popupNewCardCloseButtonElement =
-  newCardPopupElement.querySelector(".popup__close");
-const cardNameInput = newCardPopupElement.querySelector(
-  ".popup__input_type_title"
-);
-const linkInput = newCardPopupElement.querySelector(
-  ".popup__input_type_subtitle"
-);
-const cardsList = document.querySelector(".cards");
-
-//Переменные, связанные с попапом картинкой
-const previewPopupElement = document.querySelector(".image-popup");
-const previewPopupCloseButtonElement =
-  previewPopupElement.querySelector(".popup__close");
-
-//Универсальные функции открытия и закрытия попапа
-const openPopup = function (popup) {
-  popup.classList.add("popup_opened");
-  document.addEventListener("keyup", closePopupByClickEsc);
-};
-
-const closePopup = function (popup) {
-  popup.classList.remove("popup_opened");
-  document.removeEventListener("keyup", closePopupByClickEsc);
-};
-
-//Функция открытия и закрытия попапа при нажатии на Esc
-const closePopupByClickEsc = (event) => {
-  if (event.code === "Escape") {
-    const popupOpened = document.querySelector(".popup_opened");
-    closePopup(popupOpened);
-  }
-};
-
-//Функция закрытия попапа при нажатии на оверлей
-const closePopupByClickOverlay = (event) => {
-  if (event.target === event.currentTarget) {
-    const popupOpened = document.querySelector(".popup_opened");
-    closePopup(popupOpened);
-  }
-};
-
-//Функция, вставляющая значения со страницы в popupProfile при открытии.
-const pasteValuesToPopupProfileInputs = function () {
-  nameInput.value = nameProfile.textContent;
-  jobInput.value = jobProfile.textContent;
-  getFormReadyForNewLaunch(popupProfileElement, config);
-  openPopup(popupProfileElement);
-};
-
-//Функция открытия попапа создания карточки
-const openNewCardPopup = function () {
-  newCardFormElement.reset();
-  getFormReadyForNewLaunch(newCardPopupElement, config);
-  openPopup(newCardPopupElement);
-};
-
-//Функция, сохраняющая новые значения и закрывающая popupProfile.
-const handleProfileFormSubmit = function (evt) {
-  evt.preventDefault();
-  nameProfile.textContent = nameInput.value;
-  jobProfile.textContent = jobInput.value;
-  closePopup(popupProfileElement);
-};
-
-//Функция, добавляющая карточку в DOM
-function addCard(item, cardSelector) {
-  const card = new Card(item, cardSelector);
+const defaultCardList = new Section({ items: initialCards, renderer: (item) => {
+  const card = new Card(item, ".card-template");
   const cardElement = card.createCard();
-  cardsList.prepend(cardElement);
-}
+  
+  defaultCardList.addItem(cardElement);
+} }, cardListSelector);
 
-//Добавление начальных карточек
-initialCards.forEach(function (item) {
-  addCard(item, ".card-template");
-});
+defaultCardList.renderItems();
 
-//Функция, сохраняющая значения карточки и закрывающая ее.
-const handleNewCardPopupSubmit = function (evt) {
-  evt.preventDefault();
-  addCard(
-    { name: cardNameInput.value, link: linkInput.value },
-    ".card-template"
-  );
-  closePopup(newCardPopupElement);
-};
 
-//Даешь каждому рабочему по колхознице, а каждой форме по валидации ★★★
-const formList = Array.from(document.querySelectorAll(config.formSelector));
-formList.forEach((formElement) => {
-  const form = new FormValidator(config, formElement);
-  form.enableValidation();
-});
+// //Универсальные функции открытия и закрытия попапа
+// const openPopup = function (popup) {
+//   popup.classList.add("popup_opened");
+//   document.addEventListener("keyup", closePopupByClickEsc);
+// };
 
-//Функция подготавливающая форму к запуску
-const getFormReadyForNewLaunch = (formElement, objectSelector) => {
-  const submitButtonElement = formElement.querySelector(
-    objectSelector.submitButtonSelector
-  );
-  const inputList = Array.from(
-    formElement.querySelectorAll(objectSelector.inputSelector)
-  );
-  const errorList = Array.from(
-    formElement.querySelectorAll(objectSelector.inputErrorSelector)
-  );
-  inputList.forEach((inputElement) => {
-    inputElement.classList.remove(objectSelector.inputErrorClass);
-  });
-  errorList.forEach((errorElement) => {
-    errorElement.textContent = "";
-    errorElement.classList.remove(objectSelector.errorClass);
-  });
-  submitButtonElement.setAttribute("disabled", true);
-};
+// const closePopup = function (popup) {
+//   popup.classList.remove("popup_opened");
+//   document.removeEventListener("keyup", closePopupByClickEsc);
+// };
 
-//Обработчики, открывающие и закрывающие popupProfile после нажатия.
-popupProfileOpenButtonElement.addEventListener(
-  "click",
-  pasteValuesToPopupProfileInputs
-);
-popupProfileCloseButtonElement.addEventListener("click", function () {
-  closePopup(popupProfileElement);
-});
-profileFormElement.addEventListener("submit", handleProfileFormSubmit);
-popupProfileElement.addEventListener("click", closePopupByClickOverlay);
+// //Функция открытия и закрытия попапа при нажатии на Esc
+// const closePopupByClickEsc = (event) => {
+//   if (event.code === "Escape") {
+//     const popupOpened = document.querySelector(".popup_opened");
+//     closePopup(popupOpened);
+//   }
+// };
 
-//Обработчики, открывающие и закрывающие попап добавления карточки после нажатия
-popupNewCardOpenButtonElement.addEventListener("click", openNewCardPopup);
-popupNewCardCloseButtonElement.addEventListener("click", function () {
-  closePopup(newCardPopupElement);
-});
-newCardFormElement.addEventListener("submit", handleNewCardPopupSubmit);
-newCardPopupElement.addEventListener("click", closePopupByClickOverlay);
+// //Функция закрытия попапа при нажатии на оверлей
+// const closePopupByClickOverlay = (event) => {
+//   if (event.target === event.currentTarget) {
+//     const popupOpened = document.querySelector(".popup_opened");
+//     closePopup(popupOpened);
+//   }
+// };
 
-//Обработчики закрывающие previewPopup
-previewPopupCloseButtonElement.addEventListener("click", function () {
-  closePopup(previewPopupElement);
-});
-previewPopupElement.addEventListener("click", closePopupByClickOverlay);
+// //Функция, вставляющая значения со страницы в popupProfile при открытии.
+// const pasteValuesToPopupProfileInputs = function () {
+//   nameInput.value = nameProfile.textContent;
+//   jobInput.value = jobProfile.textContent;
+//   getFormReadyForNewLaunch(popupProfileElement, config);
+//   openPopup(popupProfileElement);
+// };
 
-export { openPopup, previewPopupElement };
+// //Функция открытия попапа создания карточки
+// const openNewCardPopup = function () {
+//   newCardFormElement.reset();
+//   getFormReadyForNewLaunch(newCardPopupElement, config);
+//   openPopup(newCardPopupElement);
+// };
+
+// //Функция, сохраняющая новые значения и закрывающая popupProfile.
+// const handleProfileFormSubmit = function (evt) {
+//   evt.preventDefault();
+//   nameProfile.textContent = nameInput.value;
+//   jobProfile.textContent = jobInput.value;
+//   closePopup(popupProfileElement);
+// };
+
+// //Функция, добавляющая карточку в DOM
+// function addCard(item, cardSelector) {
+//   const card = new Card(item, cardSelector);
+//   const cardElement = card.createCard();
+//   cardsList.prepend(cardElement);
+// }
+
+// //Добавление начальных карточек
+// initialCards.forEach(function (item) {
+//   addCard(item, ".card-template");
+// });
+
+// //Функция, сохраняющая значения карточки и закрывающая ее.
+// const handleNewCardPopupSubmit = function (evt) {
+//   evt.preventDefault();
+//   addCard(
+//     { name: cardNameInput.value, link: linkInput.value },
+//     ".card-template"
+//   );
+//   closePopup(newCardPopupElement);
+// };
+
+// //Даешь каждому рабочему по колхознице, а каждой форме по валидации ★★★
+// const formList = Array.from(document.querySelectorAll(config.formSelector));
+// formList.forEach((formElement) => {
+//   const form = new FormValidator(config, formElement);
+//   form.enableValidation();
+// });
+
+// //Функция подготавливающая форму к запуску
+// const getFormReadyForNewLaunch = (formElement, objectSelector) => {
+//   const submitButtonElement = formElement.querySelector(
+//     objectSelector.submitButtonSelector
+//   );
+//   const inputList = Array.from(
+//     formElement.querySelectorAll(objectSelector.inputSelector)
+//   );
+//   const errorList = Array.from(
+//     formElement.querySelectorAll(objectSelector.inputErrorSelector)
+//   );
+//   inputList.forEach((inputElement) => {
+//     inputElement.classList.remove(objectSelector.inputErrorClass);
+//   });
+//   errorList.forEach((errorElement) => {
+//     errorElement.textContent = "";
+//     errorElement.classList.remove(objectSelector.errorClass);
+//   });
+//   submitButtonElement.setAttribute("disabled", true);
+// };
+
+// //Обработчики, открывающие и закрывающие popupProfile после нажатия.
+// popupProfileOpenButtonElement.addEventListener(
+//   "click",
+//   pasteValuesToPopupProfileInputs
+// );
+// popupProfileCloseButtonElement.addEventListener("click", function () {
+//   closePopup(popupProfileElement);
+// });
+// profileFormElement.addEventListener("submit", handleProfileFormSubmit);
+// popupProfileElement.addEventListener("click", closePopupByClickOverlay);
+
+// //Обработчики, открывающие и закрывающие попап добавления карточки после нажатия
+// popupNewCardOpenButtonElement.addEventListener("click", openNewCardPopup);
+// popupNewCardCloseButtonElement.addEventListener("click", function () {
+//   closePopup(newCardPopupElement);
+// });
+// newCardFormElement.addEventListener("submit", handleNewCardPopupSubmit);
+// newCardPopupElement.addEventListener("click", closePopupByClickOverlay);
+
+// //Обработчики закрывающие previewPopup
+// previewPopupCloseButtonElement.addEventListener("click", function () {
+//   closePopup(previewPopupElement);
+// });
+// previewPopupElement.addEventListener("click", closePopupByClickOverlay);
+
+// export { openPopup, previewPopupElement };

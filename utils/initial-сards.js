@@ -1,5 +1,5 @@
 //Массив с начальными карточками
-export default initialCards = [
+export const initialCards = [
   {
     name: 'Москва',
     link: 'images/msk.jpg'
