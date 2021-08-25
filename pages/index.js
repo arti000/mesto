@@ -33,6 +33,13 @@ import {
 
 const previewPopup = new PopupWithImage(".image-popup");
 
+// //Даешь каждому рабочему по колхознице, а каждой форме по валидации ★★★
+const formList = Array.from(document.querySelectorAll(config.formSelector));
+formList.forEach((formElement) => {
+  const form = new FormValidator(config, formElement);
+  form.enableValidation();
+});
+
 const defaultCardList = new Section({ items: initialCards, renderer: (item) => {
   const card = new Card({data: item, handleCardClick: () => {
     previewPopup.open(item.link, item.name)
@@ -121,12 +128,6 @@ defaultCardList.renderItems();
 //   closePopup(newCardPopupElement);
 // };
 
-// //Даешь каждому рабочему по колхознице, а каждой форме по валидации ★★★
-// const formList = Array.from(document.querySelectorAll(config.formSelector));
-// formList.forEach((formElement) => {
-//   const form = new FormValidator(config, formElement);
-//   form.enableValidation();
-// });
 
 // //Функция подготавливающая форму к запуску
 // const getFormReadyForNewLaunch = (formElement, objectSelector) => {
