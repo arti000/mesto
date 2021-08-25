@@ -3,7 +3,7 @@
 export default class Card {
 
   //Конструктор принимает на вход имя и ссылку
-  constructor(data, cardSelector, handleCardClick) {
+  constructor({data, handleCardClick}, cardSelector) {
     this._link = data.link;
     this._name = data.name;
     this._cardSelector = cardSelector;
@@ -41,11 +41,14 @@ export default class Card {
   _pushLikeButton() {
     this._element.querySelector('.card__like-button').classList.toggle('card__like-button_active');
   }
+
   //Метод навешивания обработчиков
   _setEventListeners() {
     this._element.querySelector('.card__remove-button')
     .addEventListener('click', () => this._handleDelete());
     this._element.querySelector('.card__like-button')
     .addEventListener('click', () => this._pushLikeButton());
+    this._element.querySelector('.card__image')
+    .addEventListener('click', () => this._handleCardClick(this._link, this._name));
   }
 }

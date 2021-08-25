@@ -6,14 +6,9 @@ export default class Section {
   }
 
   renderItems() {
-    this.clear();
     this._initialArray.forEach(item => {
       this._renderer(item);
     });
-  }
-
-  clear() {
-    this._container.innerHTML = '';
   }
 
   addItem(element) {

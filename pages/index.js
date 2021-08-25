@@ -31,15 +31,23 @@ import {
 } from "../utils/constants.js";
 
 
+const previewPopup = new PopupWithImage(".image-popup");
+
 const defaultCardList = new Section({ items: initialCards, renderer: (item) => {
-  const card = new Card(item, ".card-template");
+  const card = new Card({data: item, handleCardClick: () => {
+    previewPopup.open(item.link, item.name)
+  }}, ".card-template");
   const cardElement = card.createCard();
-  
   defaultCardList.addItem(cardElement);
 } }, cardListSelector);
 
 defaultCardList.renderItems();
 
+
+
+
+
+// const editPopup = new PopupWithForm(popupProfileElement, profileFormElement)
 
 // //Универсальные функции открытия и закрытия попапа
 // const openPopup = function (popup) {
