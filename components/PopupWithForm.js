@@ -1,29 +1,43 @@
+import { nameInput, jobInput, cardNameInput, linkInput } from "../utils/constants.js";
 import Popup from "./Popup.js";
 export default class PopupWithForm extends Popup {
-  constructor(popupSelector, formSelector, formSubmit) {
+  constructor(popupSelector, formSelector, {formSubmit}) {
     super(popupSelector);
     this._formSubmit = formSubmit;
-    this._formSelector = formSelector;
+    this._formSelector = this._popup.querySelector(formSelector);
   }
 
   _getInputValues() {
-    const cardElement = {
-      name: cardNameInput.value,
+    const formInputsValues = {
+      name: nameInput.value,
+      job: jobInput.value,
+      cardName: cardNameInput.value,
       link: linkInput.value,
       alt: cardNameInput.value
     };
-    return cardElement;
+    return formInputsValues;
   }
-  
+
+  open() {
+    this.setEventListeners();
+    this._popup.classList.add("popup_opened");
+  }
+
   setEventListeners() {
     this._popup.querySelector(".popup__close").addEventListener("click", () => {
       this.close();
     });
-    this._popup.querySelector('.popup__content').addEventListener("submit", this._formSubmit());
+    document.addEventListener('keydown', this._handleEscClose);
+    this._popup.addEventListener("click", this._handleOverlayClose);
+    this._formSelector.addEventListener("submit", (event) => {
+      event.preventDefault();
+      this._formSubmit(this._getInputValues());
+      this.close();
+    });
   }
 
   close() {
-    this._popup.reset();
+    document.removeEventListener('keydown', this._handleEscClose);
     this._popup.classList.remove("popup_opened");
   }
 }

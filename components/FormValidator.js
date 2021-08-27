@@ -8,6 +8,8 @@ export default class FormValidator {
     this._inputErrorClass = objectSelector.inputErrorClass;
     this._errorClass = objectSelector.errorClass;
     this._formElement = formElement;
+    this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
+    this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
   }
 
   //Метод показа текста ошибок
@@ -29,25 +31,33 @@ export default class FormValidator {
   }
 
   //Метод переключения состояния кнопки
-  _toggleButtonState(inputList, buttonElement) {
+  _toggleButtonState() {
     const findNotValidInput = (inputElement) => !inputElement.validity.valid;
-    const hasNotValidInput = inputList.some(findNotValidInput);
+    const hasNotValidInput = this._inputList.some(findNotValidInput);
     if (hasNotValidInput) {
-      buttonElement.setAttribute('disabled', true);
+      this._buttonElement.setAttribute('disabled', true);
     } else {
-      buttonElement.removeAttribute('disabled', true);
+      this._buttonElement.removeAttribute('disabled', true);
     }
   }
 
   //Метод проверки валидности полей
   _checkInputValidity(inputElement) {
     const isInputNotValid = !inputElement.validity.valid;
+    const errorMessage = inputElement.validationMessage;
     if (isInputNotValid) {
-      const errorMessage = inputElement.validationMessage;
       this._showInputError(inputElement, errorMessage);
     } else {
       this._hideInputError(inputElement);
     }
+  }
+
+  resetValidation() {
+    this._inputList.forEach(inputElement => {
+      this._hideInputError(inputElement);
+      this._toggleButtonState();
+      });
+    
   }
 
   //Метод устанавливающий обработчики
@@ -58,17 +68,11 @@ export default class FormValidator {
       event.preventDefault();
     });
 
-    //Находим все инпуты формы
-    const inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
-
-    //Находим кнопку
-    const buttonElement = this._formElement.querySelector(this._submitButtonSelector);
-
     //На каждый инпут формы вешаем проверку валидности полей и переключатель кнопки
-    inputList.forEach(inputElement => {
+    this._inputList.forEach(inputElement => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
-        this._toggleButtonState(inputList, buttonElement);
+        this._toggleButtonState();
       });
     });
   }

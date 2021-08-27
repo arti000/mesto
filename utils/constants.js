@@ -35,3 +35,8 @@ export const config = {
 };
 
 export const cardListSelector = ".cards";
+
+export const profileInfo = {
+  profileName: ".profile__title",
+  profileJob: ".profile__subtitle"
+}

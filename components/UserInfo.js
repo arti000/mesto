@@ -1,25 +1,21 @@
+import { nameInput, jobInput } from "../utils/constants.js";
 export default class UserInfo {
-  _nameProfile;
-  _jobProfile;
-  constructur(nameProfile, jobProfile) {
-    this._nameProfile = nameProfile;
-    this._jobProfile = jobProfile;
+  constructur({profileName, profileJob}) {
+    this._name = profileName;
+    this._job = profileJob;
   }
 
   getUserInfo() {
-    const userInfo = {
-      name: this._nameProfile.textContent,
-      job: this._jobProfile.textContent
-    };
-    return userInfo;
+    // const userInfo = {
+    //   name: this._name.textContent,
+    //   job: this._job.textContent
+    // };
+    // return userInfo;
+    console.log(this._name)
   }
 
   setUserInfo() {
-    const nameInput = popupProfileElement
-    .querySelector(".popup__input_type_title");
-    const jobInput = popupProfileElement
-    .querySelector(".popup__input_type_subtitle");
-    this._nameProfile.textContent = nameInput.value;
-    this._jobProfile.textContent = jobInput.value;
+    this._nameElement.textContent = nameInput.value;
+    this._jobElement.textContent = jobInput.value;
   }
 }

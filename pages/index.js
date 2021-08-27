@@ -27,18 +27,35 @@ import {
   previewPopupElement,
   previewPopupCloseButtonElement,
   config,
-  cardListSelector
+  cardListSelector,
+  profileInfo
 } from "../utils/constants.js";
 
 
 const previewPopup = new PopupWithImage(".image-popup");
 
-// //Даешь каждому рабочему по колхознице, а каждой форме по валидации ★★★
-const formList = Array.from(document.querySelectorAll(config.formSelector));
-formList.forEach((formElement) => {
-  const form = new FormValidator(config, formElement);
-  form.enableValidation();
-});
+//Даешь каждому рабочему по колхознице, а каждой форме по валидации ★★★
+const profileForm = new FormValidator(config, profileFormElement);
+profileForm.enableValidation();
+
+const profileElement = new UserInfo({nameProfile, jobProfile});
+console.log(profileInfo)
+const fucking = profileElement.getUserInfo()
+
+
+popupProfileOpenButtonElement.addEventListener("click", () => {
+  const profilePopupElement = new PopupWithForm(".edit-popup", ".popup__content", 
+    {formSubmit: ({name, job}) => {
+      nameProfile.textContent = name;
+      jobProfile.textContent = job;
+  }})
+  profileFormElement.reset();
+  nameInput.value = nameProfile.textContent;
+  jobInput.value = jobProfile.textContent;
+  profileForm.resetValidation();
+  profilePopupElement.open();
+}
+);
 
 const defaultCardList = new Section({ items: initialCards, renderer: (item) => {
   const card = new Card({data: item, handleCardClick: () => {
@@ -47,11 +64,7 @@ const defaultCardList = new Section({ items: initialCards, renderer: (item) => {
   const cardElement = card.createCard();
   defaultCardList.addItem(cardElement);
 } }, cardListSelector);
-
 defaultCardList.renderItems();
-
-
-
 
 
 // const editPopup = new PopupWithForm(popupProfileElement, profileFormElement)
