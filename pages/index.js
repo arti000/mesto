@@ -38,9 +38,9 @@ const previewPopup = new PopupWithImage(".image-popup");
 const profileForm = new FormValidator(config, profileFormElement);
 profileForm.enableValidation();
 
-const profileElement = new UserInfo({nameProfile, jobProfile});
-console.log(profileInfo)
+const profileElement = new UserInfo(".profile__title", ".profile__subtitle");
 const fucking = profileElement.getUserInfo()
+console.log(fucking)
 
 
 popupProfileOpenButtonElement.addEventListener("click", () => {
