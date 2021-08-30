@@ -49,6 +49,6 @@ export default class Card {
     this._element.querySelector('.card__like-button')
     .addEventListener('click', () => this._pushLikeButton());
     this._element.querySelector('.card__image')
-    .addEventListener('click', () => this._handleCardClick(this._link, this._name));
+    .addEventListener('click', () => this._handleCardClick(this._name, this._link));
   }
 }

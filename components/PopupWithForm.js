@@ -12,14 +12,12 @@ export default class PopupWithForm extends Popup {
       name: nameInput.value,
       job: jobInput.value,
       cardName: cardNameInput.value,
-      link: linkInput.value,
-      alt: cardNameInput.value
+      cardLink: linkInput.value,
     };
     return formInputsValues;
   }
 
   open() {
-    this.setEventListeners();
     this._popup.classList.add("popup_opened");
   }
 
