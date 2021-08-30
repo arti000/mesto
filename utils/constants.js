@@ -1,27 +1,35 @@
-//Переменные, связанные с попапом редактирования
-export const popupProfileElement = document.querySelector(".edit-popup");
-export const profileFormElement = popupProfileElement.querySelector(".popup__content");
+//Селекторы попапов
+export const popupProfileSelector = ".edit-popup";
+export const previewPopupSelector = ".image-popup";
+export const newCardPopupSelector = ".add-popup";
+
+//Селектор формы
+export const formElementSelector = ".popup__content";
+
+//Переменные, связанные с конкретными формами попапов
+export const profileFormElement = document.querySelector(popupProfileSelector).querySelector(formElementSelector);
+export const newCardFormElement = document.querySelector(newCardPopupSelector).querySelector(formElementSelector);
+
+//Переменные, связанные с кнопками открытия попапов
 export const popupProfileOpenButtonElement = document.querySelector(".profile__open-popup");
-export const popupProfileCloseButtonElement = popupProfileElement.querySelector(".popup__close");
-export const nameInput = popupProfileElement.querySelector(".popup__input_type_title")
-export const jobInput = popupProfileElement.querySelector(".popup__input_type_subtitle");
-
-//Переменные, связанные со значениями в секции profile
-export const nameProfile = document.querySelector(".profile__title");
-export const jobProfile = document.querySelector(".profile__subtitle");
-
-//Переменные, связанные с newCardPopup
-export const newCardPopupElement = document.querySelector(".add-popup");
-export const newCardFormElement = newCardPopupElement.querySelector(".popup__content");
 export const popupNewCardOpenButtonElement = document.querySelector(".profile__add-button");
-export const popupNewCardCloseButtonElement = newCardPopupElement.querySelector(".popup__close");
-export const cardNameInput = newCardPopupElement.querySelector(".popup__input_type_title");
-export const linkInput = newCardPopupElement.querySelector(".popup__input_type_subtitle");
-export const cardsList = document.querySelector(".cards");
 
-//Переменные, связанные с попапом картинкой
-export const previewPopupElement = document.querySelector(".image-popup");
-export const previewPopupCloseButtonElement = previewPopupElement.querySelector(".popup__close");
+//Селектор кнопки закрытия попапа
+export const closeButtonSelector = ".popup__close";
+
+//Селекторы полей
+const inputTitleSelector = ".popup__input_type_title";
+const inputSubtitleSelector = ".popup__input_type_subtitle";
+
+//Переменные, связанные с полями попапов
+export const nameInput = document.querySelector(popupProfileSelector).querySelector(inputTitleSelector)
+export const jobInput = document.querySelector(popupProfileSelector).querySelector(inputSubtitleSelector);
+export const cardNameInput = document.querySelector(newCardPopupSelector).querySelector(inputTitleSelector);
+export const linkInput = document.querySelector(newCardPopupSelector).querySelector(inputSubtitleSelector);
+
+//Переменные, связанные с карточками
+export const cardListSelector = ".cards";
+export const cardSelector = ".card-template";
 
 //Объект c селекторами
 export const config = {
@@ -34,7 +42,6 @@ export const config = {
   errorClass: "popup__input-error_type_active",
 };
 
-export const cardListSelector = ".cards";
 
 export const profileInfo = {
   profileName: ".profile__title",

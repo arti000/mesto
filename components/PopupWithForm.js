@@ -1,4 +1,4 @@
-import { nameInput, jobInput, cardNameInput, linkInput } from "../utils/constants.js";
+import {closeButtonSelector, nameInput, jobInput, cardNameInput, linkInput } from "../utils/constants.js";
 import Popup from "./Popup.js";
 export default class PopupWithForm extends Popup {
   constructor(popupSelector, formSelector, {formSubmit}) {
@@ -22,7 +22,7 @@ export default class PopupWithForm extends Popup {
   }
 
   setEventListeners() {
-    this._popup.querySelector(".popup__close").addEventListener("click", () => {
+    this._popup.querySelector(closeButtonSelector).addEventListener("click", () => {
       this.close();
     });
     document.addEventListener('keydown', this._handleEscClose);
@@ -35,7 +35,6 @@ export default class PopupWithForm extends Popup {
   }
 
   close() {
-    document.removeEventListener('keydown', this._handleEscClose);
     this._popup.classList.remove("popup_opened");
   }
 }

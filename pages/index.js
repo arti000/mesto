@@ -1,37 +1,34 @@
-//Импортируем class Card
+//Импортируем классы
 import Card from "../components/Сard.js";
-import { initialCards } from "../utils/initial-сards.js";
 import FormValidator from "../components/FormValidator.js";
-import Popup from "../components/Popup.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import Section from "../components/Section.js";
 import UserInfo from "../components/UserInfo.js";
 
+//Импортируем объект с начальными карточками
+import { initialCards } from "../utils/initial-сards.js";
+
+//Импортируем константы
 import {
-  popupProfileElement,
+  popupProfileSelector,
+  newCardPopupSelector,
+  previewPopupSelector,
+  formElementSelector,
   profileFormElement,
-  popupProfileOpenButtonElement,
-  popupProfileCloseButtonElement,
   newCardFormElement,
+  popupProfileOpenButtonElement,
+  popupNewCardOpenButtonElement,
   nameInput,
   jobInput,
-  popupNewCardOpenButtonElement,
-  popupNewCardCloseButtonElement,
-  cardNameInput,
-  linkInput,
-  cardsList,
-  previewPopupElement,
-  previewPopupCloseButtonElement,
   config,
   cardListSelector,
+  cardSelector,
   profileInfo,
-  nameProfile,
-  jobProfile
 } from "../utils/constants.js";
 
 //создание попапа увеличенной картинки
-const previewPopup = new PopupWithImage(".image-popup");
+const previewPopup = new PopupWithImage(previewPopupSelector);
 
 //Настройка валидации формы редактирования профиля
 const profileForm = new FormValidator(config, profileFormElement);
@@ -48,7 +45,7 @@ const handleCardClick = (name, link) => {
 
 //Функция создания карточки
 const createCard = (name, link) => {
-  const card = new Card({data: {name, link}, click: () => {handleCardClick(name, link)}}, ".card-template");
+  const card = new Card({data: {name, link}, handleCardClick: () => {handleCardClick(name, link)}}, cardSelector);
   const cardElement = card.createCard();
   return cardElement
 }
@@ -67,7 +64,7 @@ const createCard = (name, link) => {
 //Фунция открытия попапа редактирования
 const openPopupProfileElement = () => {
   const user = new UserInfo(profileInfo);
-  const profilePopupElement = new PopupWithForm(".edit-popup", ".popup__content", 
+  const profilePopupElement = new PopupWithForm(popupProfileSelector, formElementSelector, 
   {formSubmit: ({name, job}) => {
     user.setUserInfo({name, job});
   }});
@@ -80,7 +77,7 @@ const openPopupProfileElement = () => {
   profilePopupElement.setEventListeners();
 }
 
-const newCardPopupElement = new PopupWithForm(".add-popup", ".popup__content", 
+const newCardPopupElement = new PopupWithForm(newCardPopupSelector, formElementSelector, 
     {formSubmit: ({cardName, cardLink}) => {
       const newCardElement = new Section(
         {renderer: () => {
@@ -89,7 +86,8 @@ const newCardPopupElement = new PopupWithForm(".add-popup", ".popup__content",
       }}, cardListSelector);
       newCardElement.renderItem(cardName, cardLink);
     }}
-  );
+    );
+    newCardPopupElement.setEventListeners();
 
 //Обработчики для кнопок открытия попапов
 popupProfileOpenButtonElement.addEventListener("click", openPopupProfileElement);
@@ -100,4 +98,3 @@ popupNewCardOpenButtonElement.addEventListener("click", () => {
   newCardForm.resetValidation();
   newCardPopupElement.open();
 });
-newCardPopupElement.setEventListeners();

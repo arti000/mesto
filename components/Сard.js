@@ -1,8 +1,6 @@
-// import {previewPopupElement, openPopup} from '../pages/index.js';
-
 export default class Card {
 
-  //Конструктор принимает на вход имя и ссылку
+  //Конструктор принимает первым параметром объект и функцию, вторым - ссылку
   constructor({data, handleCardClick}, cardSelector) {
     this._link = data.link;
     this._name = data.name;
