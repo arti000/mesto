@@ -1,13 +1,23 @@
-import {closeButtonSelector, nameInput, jobInput, cardNameInput, linkInput } from "../utils/constants.js";
+import {
+  nameInput,
+  jobInput,
+  cardNameInput,
+  linkInput,
+  inputSelector,
+} from "../utils/constants.js";
 import Popup from "./Popup.js";
 export default class PopupWithForm extends Popup {
-  constructor(popupSelector, formSelector, {formSubmit}) {
+  constructor(popupSelector, formSelector, { formSubmit }) {
     super(popupSelector);
     this._formSubmit = formSubmit;
     this._formSelector = this._popup.querySelector(formSelector);
   }
 
   _getInputValues() {
+    this._inputList = Array.from(this._formSelector.querySelectorAll(inputSelector));
+    this._inputList.forEach(name => {
+      { [name]: value }
+    })
     const formInputsValues = {
       name: nameInput.value,
       job: jobInput.value,
@@ -18,15 +28,11 @@ export default class PopupWithForm extends Popup {
   }
 
   open() {
-    this._popup.classList.add("popup_opened");
+    super.open();
   }
 
   setEventListeners() {
-    this._popup.querySelector(closeButtonSelector).addEventListener("click", () => {
-      this.close();
-    });
-    document.addEventListener('keydown', this._handleEscClose);
-    this._popup.addEventListener("click", this._handleOverlayClose);
+    super.setEventListeners();
     this._formSelector.addEventListener("submit", (event) => {
       event.preventDefault();
       this._formSubmit(this._getInputValues());
@@ -35,6 +41,6 @@ export default class PopupWithForm extends Popup {
   }
 
   close() {
-    this._popup.classList.remove("popup_opened");
+    super.close();
   }
 }

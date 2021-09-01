@@ -18,6 +18,7 @@ export const popupNewCardOpenButtonElement = document.querySelector(".profile__a
 export const closeButtonSelector = ".popup__close";
 
 //Селекторы полей
+export const inputSelector = ".popup__input";
 const inputTitleSelector = ".popup__input_type_title";
 const inputSubtitleSelector = ".popup__input_type_subtitle";
 

@@ -1,4 +1,4 @@
-import '../pages/index.css';
+import "../pages/index.css";
 
 //Импортируем классы
 import Card from "../components/Сard.js";
@@ -31,68 +31,92 @@ import {
 
 //создание попапа увеличенной картинки
 const previewPopup = new PopupWithImage(previewPopupSelector);
+previewPopup.setEventListeners();
 
 //Настройка валидации формы редактирования профиля
 const profileForm = new FormValidator(config, profileFormElement);
 profileForm.enableValidation();
 
-//Настройка валидации формы создания карточки 
+//Настройка валидации формы создания карточки
 const newCardForm = new FormValidator(config, newCardFormElement);
 newCardForm.enableValidation();
+
+//Создание объекта с информацией профиля
+const user = new UserInfo(profileInfo);
 
 //Функция открытия увеличенной карточки
 const handleCardClick = (name, link) => {
   previewPopup.open(name, link);
-}
+};
 
 //Функция создания карточки
 const createCard = (name, link) => {
-  const card = new Card({data: {name, link}, handleCardClick: () => {handleCardClick(name, link)}}, cardSelector);
+  const card = new Card(
+    {
+      data: { name, link },
+      handleCardClick: () => {
+        handleCardClick(name, link);
+      },
+    },
+    cardSelector
+  );
   const cardElement = card.createCard();
-  return cardElement
-}
+  return cardElement;
+};
 
 //Добавление начальных карточек
-  const defaultCardList = new Section({
+const defaultCardList = new Section(
+  {
     items: initialCards,
     renderer: (item) => {
-      const  card = createCard(item.name, item.link);
+      const card = createCard(item.name, item.link);
       defaultCardList.addItem(card);
-    }
-  }, cardListSelector);
-  defaultCardList.renderItems();
+    },
+  },
+  cardListSelector
+);
+defaultCardList.renderItems();
 
+const profilePopupElement = new PopupWithForm(
+  popupProfileSelector,
+  formElementSelector,
+  {
+    formSubmit: ({ name, job }) => {
+      user.setUserInfo({ name, job });
+    },
+  }
+);
+profilePopupElement.setEventListeners();
 
-//Фунция открытия попапа редактирования
-const openPopupProfileElement = () => {
-  const user = new UserInfo(profileInfo);
-  const profilePopupElement = new PopupWithForm(popupProfileSelector, formElementSelector, 
-  {formSubmit: ({name, job}) => {
-    user.setUserInfo({name, job});
-  }});
-  profileFormElement.reset();
+const newCardPopupElement = new PopupWithForm(
+  newCardPopupSelector,
+  formElementSelector,
+  {
+    formSubmit: ({ cardName, cardLink }) => {
+      const newCardElement = new Section(
+        {
+          renderer: () => {
+            const card = createCard(cardName, cardLink);
+            defaultCardList.addItem(card);
+          },
+        },
+        cardListSelector
+      );
+      newCardElement.renderItem(cardName, cardLink);
+    },
+  }
+);
+newCardPopupElement.setEventListeners();
+
+//Обработчики для кнопок открытия попапов
+popupProfileOpenButtonElement.addEventListener("click", () => {
   const userData = user.getUserInfo();
+  profileFormElement.reset();
   nameInput.value = userData.name;
   jobInput.value = userData.job;
   profileForm.resetValidation();
   profilePopupElement.open();
-  profilePopupElement.setEventListeners();
-}
-
-const newCardPopupElement = new PopupWithForm(newCardPopupSelector, formElementSelector, 
-    {formSubmit: ({cardName, cardLink}) => {
-      const newCardElement = new Section(
-        {renderer: () => {
-        const card = createCard(cardName, cardLink);
-        newCardElement.addItem(card);
-      }}, cardListSelector);
-      newCardElement.renderItem(cardName, cardLink);
-    }}
-    );
-    newCardPopupElement.setEventListeners();
-
-//Обработчики для кнопок открытия попапов
-popupProfileOpenButtonElement.addEventListener("click", openPopupProfileElement);
+});
 
 //Навешиваем обработчик на кнопку открытия попапа создания карточки
 popupNewCardOpenButtonElement.addEventListener("click", () => {
