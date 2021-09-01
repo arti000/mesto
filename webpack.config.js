@@ -9,6 +9,8 @@ module.exports = {
     contentBase: path.resolve(__dirname, 'dist'),
     compress: true,
     port: 8000,
+
+    open: true,
   },
   output: {
     filename: 'main.js',
