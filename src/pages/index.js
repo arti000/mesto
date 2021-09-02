@@ -103,7 +103,6 @@ newCardPopupElement.setEventListeners();
 //Обработчики для кнопок открытия попапов
 popupProfileOpenButtonElement.addEventListener("click", () => {
   const userData = user.getUserInfo();
-  profileFormElement.reset();
   nameInput.value = userData.name;
   jobInput.value = userData.job;
   profileForm.resetValidation();
@@ -112,7 +111,6 @@ popupProfileOpenButtonElement.addEventListener("click", () => {
 
 //Навешиваем обработчик на кнопку открытия попапа создания карточки
 popupNewCardOpenButtonElement.addEventListener("click", () => {
-  newCardFormElement.reset();
   newCardForm.resetValidation();
   newCardPopupElement.open();
 });
