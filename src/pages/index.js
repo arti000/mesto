@@ -93,16 +93,8 @@ const newCardPopupElement = new PopupWithForm(
   formElementSelector,
   {
     formSubmit: ({ cardName, cardLink }) => {
-      const newCardElement = new Section(
-        {
-          renderer: () => {
-            const card = createCard(cardName, cardLink);
-            defaultCardList.addItem(card);
-          },
-        },
-        cardListSelector
-      );
-      newCardElement.renderItem(cardName, cardLink);
+      const card = createCard(cardName, cardLink);
+      defaultCardList.addItem(card);
     },
   }
 );
