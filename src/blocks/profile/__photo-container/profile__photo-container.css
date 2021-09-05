@@ -1,0 +1,13 @@
+.profile__photo-container {
+  max-width: 120px;
+  max-height: 120px;
+  position: relative;
+  margin-bottom: 26px;
+  padding: 0;
+}
+
+@media screen and (min-width: 914px) {
+  .profile__photo-container {
+    margin: 0;
+  }
+}
