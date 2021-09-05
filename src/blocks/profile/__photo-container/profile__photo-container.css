@@ -1,6 +1,6 @@
 .profile__photo-container {
-  max-width: 120px;
-  max-height: 120px;
+  width: 120px;
+  height: 120px;
   position: relative;
   margin-bottom: 26px;
   padding: 0;

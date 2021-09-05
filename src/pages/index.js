@@ -16,13 +16,19 @@ import {
   popupProfileSelector,
   newCardPopupSelector,
   previewPopupSelector,
+  confirmPopupSelector,
+  updateAvatarPopupSelector,
   formElementSelector,
   profileFormElement,
   newCardFormElement,
+  updateAvatarFormElement,
   popupProfileOpenButtonElement,
   popupNewCardOpenButtonElement,
+  updateAvatarOpenButtonElement,
+  avatarElement,
   nameInput,
   jobInput,
+  avatarLinkInput,
   config,
   cardListSelector,
   cardSelector,
@@ -40,6 +46,10 @@ profileForm.enableValidation();
 //Настройка валидации формы создания карточки
 const newCardForm = new FormValidator(config, newCardFormElement);
 newCardForm.enableValidation();
+
+//Настройка валидации формы обновления фото профиля
+const updateAvatarForm = new FormValidator(config, updateAvatarFormElement);
+updateAvatarForm.enableValidation();
 
 //Создание объекта с информацией профиля
 const user = new UserInfo(profileInfo);
@@ -77,6 +87,7 @@ const defaultCardList = new Section(
 );
 defaultCardList.renderItems();
 
+//Попапы
 const profilePopupElement = new PopupWithForm(
   popupProfileSelector,
   formElementSelector,
@@ -100,6 +111,17 @@ const newCardPopupElement = new PopupWithForm(
 );
 newCardPopupElement.setEventListeners();
 
+const updateAvatarPopupElement = new PopupWithForm(
+  updateAvatarPopupSelector,
+  formElementSelector,
+  {
+    formSubmit: ({ avatarLink }) => {
+      avatarElement.src = avatarLink;
+    },
+  }
+);
+updateAvatarPopupElement.setEventListeners();
+
 //Обработчики для кнопок открытия попапов
 popupProfileOpenButtonElement.addEventListener("click", () => {
   const userData = user.getUserInfo();
@@ -114,3 +136,9 @@ popupNewCardOpenButtonElement.addEventListener("click", () => {
   newCardForm.resetValidation();
   newCardPopupElement.open();
 });
+
+//Навешиваем обработчик на кнопу редактирования аватара
+updateAvatarOpenButtonElement.addEventListener('click', () => {
+  updateAvatarForm.resetValidation();
+  updateAvatarPopupElement.open();
+})

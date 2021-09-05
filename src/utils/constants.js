@@ -2,6 +2,8 @@
 export const popupProfileSelector = ".edit-popup";
 export const previewPopupSelector = ".image-popup";
 export const newCardPopupSelector = ".add-popup";
+export const confirmPopupSelector = ".confirm-popup";
+export const updateAvatarPopupSelector = ".update-avatar-popup";
 
 //Селектор формы
 export const formElementSelector = ".popup__content";
@@ -13,6 +15,9 @@ export const profileFormElement = document
 export const newCardFormElement = document
   .querySelector(newCardPopupSelector)
   .querySelector(formElementSelector);
+export const updateAvatarFormElement = document
+.querySelector(updateAvatarPopupSelector)
+.querySelector(formElementSelector);
 
 //Переменные, связанные с кнопками открытия попапов
 export const popupProfileOpenButtonElement = document.querySelector(
@@ -21,6 +26,12 @@ export const popupProfileOpenButtonElement = document.querySelector(
 export const popupNewCardOpenButtonElement = document.querySelector(
   ".profile__add-button"
 );
+export const updateAvatarOpenButtonElement = document.querySelector(
+  ".profile__edit-photo-btn"
+);
+
+//Переменная аватара
+export const avatarElement = document.querySelector(".profile__photo");
 
 //Селектор кнопки закрытия попапа
 export const closeButtonSelector = ".popup__close";
@@ -43,6 +54,9 @@ export const cardNameInput = document
 export const linkInput = document
   .querySelector(newCardPopupSelector)
   .querySelector(inputSubtitleSelector);
+export const avatarLinkInput = document
+.querySelector(updateAvatarPopupSelector)
+.querySelector(inputSubtitleSelector);
 
 //Переменные, связанные с карточками
 export const cardListSelector = ".cards";
