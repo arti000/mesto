@@ -28,7 +28,6 @@ import {
   avatarElement,
   nameInput,
   jobInput,
-  avatarLinkInput,
   config,
   cardListSelector,
   cardSelector,

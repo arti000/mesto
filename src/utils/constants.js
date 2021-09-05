@@ -54,9 +54,6 @@ export const cardNameInput = document
 export const linkInput = document
   .querySelector(newCardPopupSelector)
   .querySelector(inputSubtitleSelector);
-export const avatarLinkInput = document
-.querySelector(updateAvatarPopupSelector)
-.querySelector(inputSubtitleSelector);
 
 //Переменные, связанные с карточками
 export const cardListSelector = ".cards";
