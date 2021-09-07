@@ -36,6 +36,9 @@ const api = new Api({
   url: 'https://mesto.nomoreparties.co/v1/cohort-27/',
 })
 
+//Создание объекта с информацией профиля
+const user = new UserInfo(profileInfo);
+
 api
 .getInitialCards()
 .then(items => {
@@ -56,6 +59,7 @@ api.getUserInfo()
 .then(data => {
   const userData = new UserInfo(profileInfo);
   userData.setUserInfo(data);
+  userData.setAvatar(data);
 })
 
 
@@ -75,8 +79,6 @@ newCardForm.enableValidation();
 const updateAvatarForm = new FormValidator(config, updateAvatarFormElement);
 updateAvatarForm.enableValidation();
 
-//Создание объекта с информацией профиля
-const user = new UserInfo(profileInfo);
 
 //Функция открытия увеличенной карточки
 const handleCardClick = (name, link) => {
@@ -104,7 +106,10 @@ const profilePopupElement = new PopupWithForm(
   formElementSelector,
   {
     formSubmit: ({ name, about }) => {
-      user.setUserInfo({ name, about });
+      api.setUserInfo({ name, about })
+      .then(data => {
+        user.setUserInfo(data);
+      })
     },
   }
 );
@@ -126,8 +131,11 @@ const updateAvatarPopupElement = new PopupWithForm(
   updateAvatarPopupSelector,
   formElementSelector,
   {
-    formSubmit: ({ avatarLink }) => {
-      avatarElement.src = avatarLink;
+    formSubmit: ({ avatar }) => {
+      api.setAvatar({ avatar })
+      .then(data => {
+        user.setAvatar(data);
+      })
     },
   }
 );

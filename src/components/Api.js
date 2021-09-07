@@ -19,9 +19,6 @@ export default class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
       })
       .catch((err) => console.log(err));
-    //this.url
-    //GET
-    //return data
   }
 
   getUserInfo() {
@@ -35,10 +32,43 @@ export default class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
       })
       .catch((err) => console.log(err));
-    //this.url
-    //GET
-    //return data
   }
+
+  setUserInfo(data) {
+    return fetch(`${this.url}`+'users/me', {
+      method: 'PATCH',
+      headers: this.headers,
+      body: JSON.stringify({
+        name: data.name,
+        about: data.about,
+      })
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
+      .catch((err) => console.log(err));
+  }
+
+  setAvatar(data) {
+    return fetch(`${this.url}`+'users/me/avatar', {
+      method: 'PATCH',
+      headers: this.headers,
+      body: JSON.stringify({
+        avatar: data.avatar,
+      })
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
+      .catch((err) => console.log(err));
+  }
+
   // createCard(data) {
   //   return fetch(this.url, {
   //     headers: this.headers,
