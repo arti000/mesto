@@ -73,4 +73,5 @@ export const config = {
 export const profileInfo = {
   profileName: ".profile__title",
   profileJob: ".profile__subtitle",
+  avatar: ".profile__photo"
 };

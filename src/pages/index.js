@@ -9,9 +9,6 @@ import Section from "../components/Section.js";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
 
-//Импортируем объект с начальными карточками
-// import { initialCards } from "../utils/initial-cards.js";
-
 //Импортируем константы
 import {
   popupProfileSelector,
@@ -55,7 +52,11 @@ api
   cardsFromServer.renderItems();
 })
 
-
+api.getUserInfo()
+.then(data => {
+  const userData = new UserInfo(profileInfo);
+  userData.setUserInfo(data);
+})
 
 
 //создание попапа увеличенной картинки
@@ -102,8 +103,8 @@ const profilePopupElement = new PopupWithForm(
   popupProfileSelector,
   formElementSelector,
   {
-    formSubmit: ({ name, job }) => {
-      user.setUserInfo({ name, job });
+    formSubmit: ({ name, about }) => {
+      user.setUserInfo({ name, about });
     },
   }
 );
@@ -136,7 +137,7 @@ updateAvatarPopupElement.setEventListeners();
 popupProfileOpenButtonElement.addEventListener("click", () => {
   const userData = user.getUserInfo();
   nameInput.value = userData.name;
-  jobInput.value = userData.job;
+  jobInput.value = userData.about;
   profileForm.resetValidation();
   profilePopupElement.open();
 });
