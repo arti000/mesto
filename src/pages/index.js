@@ -7,9 +7,10 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import Section from "../components/Section.js";
 import UserInfo from "../components/UserInfo.js";
+import Api from "../components/Api.js";
 
 //Импортируем объект с начальными карточками
-import { initialCards } from "../utils/initial-сards.js";
+// import { initialCards } from "../utils/initial-cards.js";
 
 //Импортируем константы
 import {
@@ -33,6 +34,29 @@ import {
   cardSelector,
   profileInfo,
 } from "../utils/constants.js";
+
+const api = new Api({
+  url: 'https://mesto.nomoreparties.co/v1/cohort-27/',
+})
+
+api
+.getInitialCards()
+.then(items => {
+  const cardsFromServer = new Section(
+    {
+      items: items,
+      renderer: (item) => {
+        const card = createCard(item.name, item.link);
+        cardsFromServer.addItem(card);
+      },
+    },
+    cardListSelector
+  ); 
+  cardsFromServer.renderItems();
+})
+
+
+
 
 //создание попапа увеличенной картинки
 const previewPopup = new PopupWithImage(previewPopupSelector);
@@ -72,19 +96,6 @@ const createCard = (name, link) => {
   const cardElement = card.createCard();
   return cardElement;
 };
-
-//Добавление начальных карточек
-const defaultCardList = new Section(
-  {
-    items: initialCards,
-    renderer: (item) => {
-      const card = createCard(item.name, item.link);
-      defaultCardList.addItem(card);
-    },
-  },
-  cardListSelector
-);
-defaultCardList.renderItems();
 
 //Попапы
 const profilePopupElement = new PopupWithForm(
