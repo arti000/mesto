@@ -39,6 +39,17 @@ const api = new Api({
 //Создание объекта с информацией профиля
 const user = new UserInfo(profileInfo);
 
+const cardsFromServer = new Section({
+  renderer: (item) => {
+    const card = createCard(item.name, item.link);
+    cardsFromServer.addItem(card);
+  },
+  items: items,
+},
+cardListSelector
+);
+cardsFromServer.renderItems();
+
 api
 .getInitialCards()
 .then(items => {
@@ -57,10 +68,10 @@ api
 
 api.getUserInfo()
 .then(data => {
-  const userData = new UserInfo(profileInfo);
-  userData.setUserInfo(data);
-  userData.setAvatar(data);
+  user.setUserInfo(data);
+  user.setAvatar(data);
 })
+
 
 
 //создание попапа увеличенной картинки
@@ -120,8 +131,11 @@ const newCardPopupElement = new PopupWithForm(
   formElementSelector,
   {
     formSubmit: ({ cardName, cardLink }) => {
-      const card = createCard(cardName, cardLink);
-      defaultCardList.addItem(card);
+      api.createCard({ cardName, cardLink })
+      .then(data => {
+        const card = createCard(data);
+        defaultCardList.addItem(card);
+      })
     },
   }
 );
