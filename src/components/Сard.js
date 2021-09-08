@@ -3,6 +3,7 @@ export default class Card {
   constructor({ data, handleCardClick }, cardSelector) {
     this._link = data.link;
     this._name = data.name;
+    this._likes = data.likes;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
   }
@@ -24,6 +25,7 @@ export default class Card {
     this._element.querySelector(".card__image").src = this._link;
     this._element.querySelector(".card__image").alt = this._name;
     this._element.querySelector(".card__title").textContent = this._name;
+    this._element.querySelector(".card__likes-counter").textContent = this._likes.length;
     //Далее необходимо навесить на карточку обработчики
     this._setEventListeners();
     //Теперь вернем карточку

@@ -87,6 +87,14 @@ export default class Api {
       .catch((err) => console.log(err));
   }
 
+  setLike() {
+
+  }
+
+  getQuantityOfLikes() {
+    
+  }
+
   // createCard(data) {
   //   return fetch(this.url, {
   //     headers: this.headers,

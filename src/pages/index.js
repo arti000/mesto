@@ -32,6 +32,23 @@ import {
   profileInfo,
 } from "../utils/constants.js";
 
+//создание попапа увеличенной картинки
+const previewPopup = new PopupWithImage(previewPopupSelector);
+previewPopup.setEventListeners();
+
+//Настройка валидации формы редактирования профиля
+const profileForm = new FormValidator(config, profileFormElement);
+profileForm.enableValidation();
+
+//Настройка валидации формы создания карточки
+const newCardForm = new FormValidator(config, newCardFormElement);
+newCardForm.enableValidation();
+
+//Настройка валидации формы обновления фото профиля
+const updateAvatarForm = new FormValidator(config, updateAvatarFormElement);
+updateAvatarForm.enableValidation();
+
+//Создание класса Api
 const api = new Api({
   url: 'https://mesto.nomoreparties.co/v1/cohort-27/',
 })
@@ -39,12 +56,14 @@ const api = new Api({
 //Создание объекта с информацией профиля
 const user = new UserInfo(profileInfo);
 
+//Устанавливаем значения для карточек
 api.getUserInfo()
 .then(data => {
   user.setUserInfo(data);
   user.setAvatar(data);
 })
 
+//Производим запрос к серверу для получения карточек
 api
 .getInitialCards()
 .then(items => {
@@ -52,7 +71,7 @@ api
     {
       items: items,
       renderer: (item) => {
-        const card = createCard(item.name, item.link);
+        const card = createCard(item.name, item.link, item.likes);
         cardsFromServer.addItem(card);
       },
     },
@@ -60,6 +79,7 @@ api
   ); 
   cardsFromServer.renderItems();
 
+//Создаем попап создания карточки
   const newCardPopupElement = new PopupWithForm(
     newCardPopupSelector,
     formElementSelector,
@@ -80,27 +100,7 @@ api
   newCardForm.resetValidation();
   newCardPopupElement.open();
 });
-
 })
-
-
-
-
-//создание попапа увеличенной картинки
-const previewPopup = new PopupWithImage(previewPopupSelector);
-previewPopup.setEventListeners();
-
-//Настройка валидации формы редактирования профиля
-const profileForm = new FormValidator(config, profileFormElement);
-profileForm.enableValidation();
-
-//Настройка валидации формы создания карточки
-const newCardForm = new FormValidator(config, newCardFormElement);
-newCardForm.enableValidation();
-
-//Настройка валидации формы обновления фото профиля
-const updateAvatarForm = new FormValidator(config, updateAvatarFormElement);
-updateAvatarForm.enableValidation();
 
 
 //Функция открытия увеличенной карточки
@@ -109,10 +109,10 @@ const handleCardClick = (name, link) => {
 };
 
 //Функция создания карточки
-const createCard = (name, link) => {
+const createCard = (name, link, likes) => {
   const card = new Card(
     {
-      data: { name, link },
+      data: { name, link, likes },
       handleCardClick: () => {
         handleCardClick(name, link);
       },
