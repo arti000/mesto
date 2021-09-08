@@ -39,16 +39,11 @@ const api = new Api({
 //Создание объекта с информацией профиля
 const user = new UserInfo(profileInfo);
 
-const cardsFromServer = new Section({
-  renderer: (item) => {
-    const card = createCard(item.name, item.link);
-    cardsFromServer.addItem(card);
-  },
-  items: items,
-},
-cardListSelector
-);
-cardsFromServer.renderItems();
+api.getUserInfo()
+.then(data => {
+  user.setUserInfo(data);
+  user.setAvatar(data);
+})
 
 api
 .getInitialCards()
@@ -64,13 +59,30 @@ api
     cardListSelector
   ); 
   cardsFromServer.renderItems();
+
+  const newCardPopupElement = new PopupWithForm(
+    newCardPopupSelector,
+    formElementSelector,
+    {
+      formSubmit: ({ cardName, cardLink }) => {
+        api.createCard({ cardName, cardLink })
+        .then(data => {
+          const card = createCard(data.name, data.link);
+          cardsFromServer.addItem(card);
+        })
+      },
+    }
+  );
+  newCardPopupElement.setEventListeners();
+  
+  //Навешиваем обработчик на кнопку открытия попапа создания карточки
+  popupNewCardOpenButtonElement.addEventListener("click", () => {
+  newCardForm.resetValidation();
+  newCardPopupElement.open();
+});
+
 })
 
-api.getUserInfo()
-.then(data => {
-  user.setUserInfo(data);
-  user.setAvatar(data);
-})
 
 
 
@@ -126,20 +138,7 @@ const profilePopupElement = new PopupWithForm(
 );
 profilePopupElement.setEventListeners();
 
-const newCardPopupElement = new PopupWithForm(
-  newCardPopupSelector,
-  formElementSelector,
-  {
-    formSubmit: ({ cardName, cardLink }) => {
-      api.createCard({ cardName, cardLink })
-      .then(data => {
-        const card = createCard(data);
-        defaultCardList.addItem(card);
-      })
-    },
-  }
-);
-newCardPopupElement.setEventListeners();
+
 
 const updateAvatarPopupElement = new PopupWithForm(
   updateAvatarPopupSelector,
@@ -164,11 +163,6 @@ popupProfileOpenButtonElement.addEventListener("click", () => {
   profilePopupElement.open();
 });
 
-//Навешиваем обработчик на кнопку открытия попапа создания карточки
-popupNewCardOpenButtonElement.addEventListener("click", () => {
-  newCardForm.resetValidation();
-  newCardPopupElement.open();
-});
 
 //Навешиваем обработчик на кнопу редактирования аватара
 updateAvatarOpenButtonElement.addEventListener('click', () => {
