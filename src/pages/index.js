@@ -5,6 +5,7 @@ import Card from "../components/Сard.js";
 import FormValidator from "../components/FormValidator.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithConfirmation from "../components/PopupWithConfirmation";
 import Section from "../components/Section.js";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
@@ -87,7 +88,11 @@ api
       formSubmit: ({ cardName, cardLink }) => {
         api.createCard({ cardName, cardLink })
         .then(data => {
-          const card = createCard(data.name, data.link);
+          const card = createCard(data.name, data.link, data.likes, data._id);
+          card.querySelector(".card__remove-button").classList.add('card__remove-button_visible');
+          card.querySelector(".card__remove-button").addEventListener('click', () => {
+            card.remove();
+          })
           cardsFromServer.addItem(card);
         })
       },
@@ -95,6 +100,8 @@ api
   );
   newCardPopupElement.setEventListeners();
   
+  
+
   //Навешиваем обработчик на кнопку открытия попапа создания карточки
   popupNewCardOpenButtonElement.addEventListener("click", () => {
   newCardForm.resetValidation();
@@ -108,14 +115,28 @@ const handleCardClick = (name, link) => {
   previewPopup.open(name, link);
 };
 
+//Функция лайка
+
 //Функция создания карточки
-const createCard = (name, link, likes) => {
+const createCard = (name, link, likes, id) => {
   const card = new Card(
     {
       data: { name, link, likes },
       handleCardClick: () => {
         handleCardClick(name, link);
       },
+      handleOpenConfirmPopup: () => {
+        const confirmPopup = new PopupWithConfirmation(
+          confirmPopupSelector, 
+          formElementSelector, 
+          {
+            formSubmit: () => {
+              api.deleteCard(id)
+            }
+          });
+        confirmPopup.setEventListeners();
+        confirmPopup.open();
+      }
     },
     cardSelector
   );

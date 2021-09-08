@@ -1,11 +1,12 @@
 export default class Card {
   //Конструктор принимает первым параметром объект и функцию, вторым - ссылку
-  constructor({ data, handleCardClick }, cardSelector) {
+  constructor({ data, handleCardClick, handleOpenConfirmPopup }, cardSelector) {
     this._link = data.link;
     this._name = data.name;
     this._likes = data.likes;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
+    this._handleOpenConfirmPopup = handleOpenConfirmPopup;
   }
 
   //Метод, копирующий разметку
@@ -31,10 +32,7 @@ export default class Card {
     //Теперь вернем карточку
     return this._element;
   }
-  //Метод удаления карточки
-  _handleDelete() {
-    this._element.closest(".card").remove();
-  }
+
   //Метод кнопки лайка
   _pushLikeButton() {
     this._element
@@ -46,7 +44,7 @@ export default class Card {
   _setEventListeners() {
     this._element
       .querySelector(".card__remove-button")
-      .addEventListener("click", () => this._handleDelete());
+      .addEventListener("click", () => this._handleOpenConfirmPopup());
     this._element
       .querySelector(".card__like-button")
       .addEventListener("click", () => this._pushLikeButton());
