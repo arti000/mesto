@@ -1,12 +1,15 @@
 export default class Card {
   //Конструктор принимает первым параметром объект и функцию, вторым - ссылку
-  constructor({ data, handleCardClick, handleOpenConfirmPopup }, cardSelector) {
+  constructor(
+    { data, handleCardClick },
+    cardSelector
+  ) {
     this._link = data.link;
     this._name = data.name;
     this._likes = data.likes;
+    this._owner = data.owner;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
-    this._handleOpenConfirmPopup = handleOpenConfirmPopup;
   }
 
   //Метод, копирующий разметку
@@ -26,28 +29,24 @@ export default class Card {
     this._element.querySelector(".card__image").src = this._link;
     this._element.querySelector(".card__image").alt = this._name;
     this._element.querySelector(".card__title").textContent = this._name;
-    this._element.querySelector(".card__likes-counter").textContent = this._likes.length;
+    this._element.querySelector(".card__likes-counter").textContent =
+      this._likes.length;
     //Далее необходимо навесить на карточку обработчики
     this._setEventListeners();
+    this._toggleLikeButton();
     //Теперь вернем карточку
     return this._element;
   }
 
   //Метод кнопки лайка
-  _pushLikeButton() {
-    this._element
-      .querySelector(".card__like-button")
-      .classList.toggle("card__like-button_active");
+  _toggleLikeButton() {
+    if(this._likes.includes(this._owner)) {
+      this._element.querySelector(".card__like-button").classList.add("card__like-button_active");
+    }
   }
 
   //Метод навешивания обработчиков
   _setEventListeners() {
-    this._element
-      .querySelector(".card__remove-button")
-      .addEventListener("click", () => this._handleOpenConfirmPopup());
-    this._element
-      .querySelector(".card__like-button")
-      .addEventListener("click", () => this._pushLikeButton());
     this._element
       .querySelector(".card__image")
       .addEventListener("click", () =>
