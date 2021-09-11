@@ -16,8 +16,8 @@ export const newCardFormElement = document
   .querySelector(newCardPopupSelector)
   .querySelector(formElementSelector);
 export const updateAvatarFormElement = document
-.querySelector(updateAvatarPopupSelector)
-.querySelector(formElementSelector);
+  .querySelector(updateAvatarPopupSelector)
+  .querySelector(formElementSelector);
 
 //Переменные, связанные с кнопками открытия попапов
 export const popupProfileOpenButtonElement = document.querySelector(
@@ -29,9 +29,6 @@ export const popupNewCardOpenButtonElement = document.querySelector(
 export const updateAvatarOpenButtonElement = document.querySelector(
   ".profile__edit-photo-btn"
 );
-
-//Переменная аватара
-export const avatarElement = document.querySelector(".profile__photo");
 
 //Селектор кнопки закрытия попапа
 export const closeButtonSelector = ".popup__close";
@@ -73,5 +70,5 @@ export const config = {
 export const profileInfo = {
   profileName: ".profile__title",
   profileJob: ".profile__subtitle",
-  avatar: ".profile__photo"
+  avatar: ".profile__photo",
 };

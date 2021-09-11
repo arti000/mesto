@@ -24,7 +24,6 @@ import {
   popupProfileOpenButtonElement,
   popupNewCardOpenButtonElement,
   updateAvatarOpenButtonElement,
-  avatarElement,
   nameInput,
   jobInput,
   config,
@@ -49,87 +48,122 @@ newCardForm.enableValidation();
 const updateAvatarForm = new FormValidator(config, updateAvatarFormElement);
 updateAvatarForm.enableValidation();
 
-//Создание класса Api
-const api = new Api({
-  url: 'https://mesto.nomoreparties.co/v1/cohort-27/',
-})
-
 //Создание объекта с информацией профиля
 const user = new UserInfo(profileInfo);
 
-//Устанавливаем значения для карточек
-api.getUserInfo()
-.then(data => {
-  user.setUserInfo(data);
-  user.setAvatar(data);
-})
-//Производим запрос к серверу для получения карточек
-api
-.getInitialCards()
-.then(items => {
+//Создание класса Api
+const api = new Api({
+  url: "https://mesto.nomoreparties.co/v1/cohort-27/",
+});
+
+function renderLoading(isLoading, originalText, popupSelector) {
+  const popupElement = document.querySelector(popupSelector);
+  if (isLoading) {
+    popupElement.querySelector(".popup__submit").textContent = "Cохранение...";
+  } else {
+    popupElement.querySelector(".popup__submit").textContent = originalText;
+  }
+}
+
+Promise.all([api.getUserInfo(), api.getInitialCards()]).then((data) => {
+  user.setUserInfo(data[0]);
+  user.setAvatar(data[0]);
   const cardsFromServer = new Section(
     {
-      items: items,
+      items: data[1],
       renderer: (item) => {
         const card = createCard(item);
-        
-        api.getUserInfo()
-        .then(data => {
-          if(JSON.stringify(item.owner) === JSON.stringify(data)) {
-            card.querySelector(".card__remove-button").classList.add('card__remove-button_visible');
+        const checkOwner = (ownerData, cardData) => {
+          if (JSON.stringify(cardData.owner) === JSON.stringify(ownerData)) {
+            card
+              .querySelector(".card__remove-button")
+              .classList.add("card__remove-button_visible");
             const confirmPopup = new PopupWithConfirmation(
-            confirmPopupSelector, 
-            formElementSelector, 
-            {
-              formSubmit: () => {
-                api.deleteCard(item._id)
-                card.remove();
+              confirmPopupSelector,
+              formElementSelector,
+              {
+                formSubmit: () => {
+                  api.deleteCard(cardData._id);
+                  card.remove();
+                },
               }
-            });
-          confirmPopup.setEventListeners();
-          card.querySelector(".card__remove-button").addEventListener('click', () => confirmPopup.open())
+            );
+            confirmPopup.setEventListeners();
+            card
+              .querySelector(".card__remove-button")
+              .addEventListener("click", () => confirmPopup.open());
+            return;
           }
-        })
+        };
+        const checkLikes = (ownerData, cardData) => {
+          if (
+            JSON.stringify(cardData.likes).includes(JSON.stringify(ownerData))
+          ) {
+            card
+              .querySelector(".card__like-button")
+              .classList.toggle("card__like-button_active");
+          }
+        };
+        checkOwner(data[0], item);
+        checkLikes(data[0], item);
         cardsFromServer.addItem(card);
       },
     },
     cardListSelector
-  ); 
+  );
   cardsFromServer.renderItems();
-//Создаем попап создания карточки
+  //Создаем попап создания карточки
   const newCardPopupElement = new PopupWithForm(
     newCardPopupSelector,
     formElementSelector,
     {
       formSubmit: ({ cardName, cardLink }) => {
-        api.createCard({ cardName, cardLink })
-        .then(data => {
-          const card = createCard(data);
-          card.querySelector(".card__remove-button").classList.add('card__remove-button_visible');
-          const confirmPopup = new PopupWithConfirmation(
-            confirmPopupSelector, 
-            formElementSelector, 
-            {
-              formSubmit: () => {
-                api.deleteCard(data._id)
-                card.remove();
+        const originalSubmitButtonText = document
+          .querySelector(newCardPopupSelector)
+          .querySelector(".popup__submit").textContent;
+        renderLoading(true, originalSubmitButtonText, newCardPopupSelector);
+        api
+          .createCard({ cardName, cardLink })
+          .then((data) => {
+            const card = createCard(data);
+            card
+              .querySelector(".card__remove-button")
+              .classList.add("card__remove-button_visible");
+            const confirmPopup = new PopupWithConfirmation(
+              confirmPopupSelector,
+              formElementSelector,
+              {
+                formSubmit: () => {
+                  api.deleteCard(data._id);
+                  card.remove();
+                },
               }
-            });
-          confirmPopup.setEventListeners();
-          card.querySelector(".card__remove-button").addEventListener('click', () => confirmPopup.open())
-          cardsFromServer.addItem(card);
-        })
+            );
+            confirmPopup.setEventListeners();
+            card
+              .querySelector(".card__remove-button")
+              .addEventListener("click", () => confirmPopup.open());
+            cardsFromServer.addItem(card);
+          })
+          .finally(() => {
+            renderLoading(
+              false,
+              originalSubmitButtonText,
+              newCardPopupSelector
+            );
+            newCardPopupElement.close();
+          });
       },
     }
   );
   newCardPopupElement.setEventListeners();
+
   //Навешиваем обработчик на кнопку открытия попапа создания карточки
   popupNewCardOpenButtonElement.addEventListener("click", () => {
-  newCardForm.resetValidation();
-  newCardPopupElement.open();
+    newCardForm.resetValidation();
+    newCardPopupElement.open();
+  });
 });
-})
-
 
 //Функция открытия увеличенной карточки
 const handleCardClick = (name, link) => {
@@ -137,32 +171,41 @@ const handleCardClick = (name, link) => {
 };
 
 //Функция создания карточки
-const createCard = ({name, link, likes, _id, owner}) => {
+const createCard = ({ name, link, likes, _id }) => {
   const card = new Card(
     {
       data: { name, link, likes },
       handleCardClick: () => {
         handleCardClick(name, link);
-      }
+      },
     },
     cardSelector
   );
   const cardElement = card.createCard();
-  cardElement.querySelector(".card__like-button")
-  .addEventListener("click", () => {
-    if(!likes.includes(owner)){
-      api.putLike(_id)
-      .then(data => {
-        cardElement.querySelector(".card__like-button").classList.add("card__like-button_active");
-        cardElement.querySelector(".card__likes-counter").textContent = data.likes.length;
-      })
-    }
-      api.deleteLike(_id)
-      .then(data => {
-        cardElement.querySelector(".card__like-button").classList.remove("card__like-button_active");
-        cardElement.querySelector(".card__likes-counter").textContent = data.likes.length;
-      })
-  })
+  cardElement
+    .querySelector(".card__like-button")
+    .addEventListener("click", () => {
+      api.getUserInfo().then((user) => {
+        if (JSON.stringify(likes).includes(JSON.stringify(user))) {
+          api.deleteLike(_id).then((data) => {
+            likes = data.likes;
+            cardElement.querySelector(".card__likes-counter").textContent =
+              data.likes.length;
+            return likes;
+          });
+        } else {
+          api.putLike(_id).then((data) => {
+            likes = data.likes;
+            cardElement.querySelector(".card__likes-counter").textContent =
+              data.likes.length;
+            return likes;
+          });
+        }
+      });
+      cardElement
+        .querySelector(".card__like-button")
+        .classList.toggle("card__like-button_active");
+    });
   return cardElement;
 };
 
@@ -172,10 +215,19 @@ const profilePopupElement = new PopupWithForm(
   formElementSelector,
   {
     formSubmit: ({ name, about }) => {
-      api.setUserInfo({ name, about })
-      .then(data => {
-        user.setUserInfo(data);
-      })
+      const originalSubmitButtonText = document
+        .querySelector(popupProfileSelector)
+        .querySelector(".popup__submit").textContent;
+      renderLoading(true, originalSubmitButtonText, popupProfileSelector);
+      api
+        .setUserInfo({ name, about })
+        .then((data) => {
+          user.setUserInfo(data);
+        })
+        .finally(() => {
+          renderLoading(false, originalSubmitButtonText, popupProfileSelector);
+          profilePopupElement.close();
+        });
     },
   }
 );
@@ -186,10 +238,23 @@ const updateAvatarPopupElement = new PopupWithForm(
   formElementSelector,
   {
     formSubmit: ({ avatar }) => {
-      api.setAvatar({ avatar })
-      .then(data => {
-        user.setAvatar(data);
-      })
+      const originalSubmitButtonText = document
+        .querySelector(updateAvatarPopupSelector)
+        .querySelector(".popup__submit").textContent;
+      renderLoading(true, originalSubmitButtonText, updateAvatarPopupSelector);
+      api
+        .setAvatar({ avatar })
+        .then((data) => {
+          user.setAvatar(data);
+        })
+        .finally(() => {
+          renderLoading(
+            false,
+            originalSubmitButtonText,
+            updateAvatarPopupSelector
+          );
+          updateAvatarPopupElement.close();
+        });
     },
   }
 );
@@ -205,7 +270,7 @@ popupProfileOpenButtonElement.addEventListener("click", () => {
 });
 
 //Навешиваем обработчик на кнопу редактирования аватара
-updateAvatarOpenButtonElement.addEventListener('click', () => {
+updateAvatarOpenButtonElement.addEventListener("click", () => {
   updateAvatarForm.resetValidation();
   updateAvatarPopupElement.open();
-})
+});

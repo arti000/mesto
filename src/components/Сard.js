@@ -1,13 +1,9 @@
 export default class Card {
   //Конструктор принимает первым параметром объект и функцию, вторым - ссылку
-  constructor(
-    { data, handleCardClick },
-    cardSelector
-  ) {
+  constructor({ data, handleCardClick }, cardSelector) {
     this._link = data.link;
     this._name = data.name;
     this._likes = data.likes;
-    this._owner = data.owner;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
   }
@@ -33,16 +29,8 @@ export default class Card {
       this._likes.length;
     //Далее необходимо навесить на карточку обработчики
     this._setEventListeners();
-    this._toggleLikeButton();
     //Теперь вернем карточку
     return this._element;
-  }
-
-  //Метод кнопки лайка
-  _toggleLikeButton() {
-    if(this._likes.includes(this._owner)) {
-      this._element.querySelector(".card__like-button").classList.add("card__like-button_active");
-    }
   }
 
   //Метод навешивания обработчиков

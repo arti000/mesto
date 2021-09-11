@@ -128,34 +128,4 @@ export default class Api {
       })
       .catch((err) => console.log(err));
   }
-
-
-  // createCard(data) {
-  //   return fetch(this.url, {
-  //     headers: this.headers,
-  //     method: "POST",
-  //     body: JSON.stringify(data),
-  //   })
-  //     .then((res) => {
-  //       if (res.ok) {
-  //         return res.json();
-  //       }
-  //       return Promise.reject(`Ошибка: ${res.status}`);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }
-
-  // deleteCard(id) {
-  //   return fetch(`${this.url}/${id}`, {
-  //     method: "DELETE",
-  //     headers: this.headers,
-  //   })
-  //     .then((res) => {
-  //       if (res.ok) {
-  //         return res.json();
-  //       }
-  //       return Promise.reject(`Ошибка: ${res.status}`);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }
 }
