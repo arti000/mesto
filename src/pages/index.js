@@ -56,6 +56,13 @@ const api = new Api({
   url: "https://mesto.nomoreparties.co/v1/cohort-27/",
 });
 
+//Создание попапа подтверждения
+const confirmPopup = new PopupWithConfirmation(
+  confirmPopupSelector,
+  formElementSelector
+);
+confirmPopup.setEventListeners();
+
 function renderLoading(isLoading, originalText, popupSelector) {
   const popupElement = document.querySelector(popupSelector);
   if (isLoading) {
@@ -65,7 +72,8 @@ function renderLoading(isLoading, originalText, popupSelector) {
   }
 }
 
-Promise.all([api.getUserInfo(), api.getInitialCards()]).then((data) => {
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+.then((data) => {
   user.setUserInfo(data[0]);
   user.setAvatar(data[0]);
   const cardsFromServer = new Section(
@@ -74,28 +82,12 @@ Promise.all([api.getUserInfo(), api.getInitialCards()]).then((data) => {
       renderer: (item) => {
         const card = createCard(item);
         const checkOwner = (ownerData, cardData) => {
-          if (JSON.stringify(cardData.owner) === JSON.stringify(ownerData)) {
+          if (
+            JSON.stringify(cardData.owner._id) === JSON.stringify(ownerData._id)
+          ) {
             card
               .querySelector(".card__remove-button")
               .classList.add("card__remove-button_visible");
-            const confirmPopup = new PopupWithConfirmation(
-              confirmPopupSelector,
-              formElementSelector,
-              {
-                formSubmit: () => {
-                  api.deleteCard(cardData._id)
-                  .finally(() => {
-                      card.remove();
-                      confirmPopup.close();
-                    }
-                  )
-                },
-              }
-            );
-            confirmPopup.setEventListeners();
-            card
-              .querySelector(".card__remove-button")
-              .addEventListener("click", () => confirmPopup.open());
             return;
           }
         };
@@ -133,24 +125,6 @@ Promise.all([api.getUserInfo(), api.getInitialCards()]).then((data) => {
             card
               .querySelector(".card__remove-button")
               .classList.add("card__remove-button_visible");
-            const confirmPopup = new PopupWithConfirmation(
-              confirmPopupSelector,
-              formElementSelector,
-              {
-                formSubmit: () => {
-                  api.deleteCard(data._id)
-                  .finally(() => {
-                      card.remove();
-                      confirmPopup.close();
-                    }
-                  )
-                },
-              }
-            );
-            confirmPopup.setEventListeners();
-            card
-              .querySelector(".card__remove-button")
-              .addEventListener("click", () => confirmPopup.open());
             cardsFromServer.addItem(card);
           })
           .finally(() => {
@@ -182,19 +156,30 @@ const handleCardClick = (name, link) => {
 const createCard = ({ name, link, likes, _id }) => {
   const card = new Card(
     {
-      data: { name, link, likes },
+      data: { name, link, likes, _id },
       handleCardClick: () => {
         handleCardClick(name, link);
       },
+      confirmationDelete: (_id) => {
+        confirmPopup.open();
+        confirmPopup.setSubmitAction(() => {
+          api.deleteCard(_id)
+            .then(() => {
+              card.deleteCard();
+              confirmPopup.close();
+            })
+        })
+      }
     },
-    cardSelector
+    cardSelector, api
   );
   const cardElement = card.createCard();
   cardElement
     .querySelector(".card__like-button")
     .addEventListener("click", () => {
-      api.getUserInfo().then((user) => {
-        if (JSON.stringify(likes).includes(JSON.stringify(user))) {
+      api.getUserInfo()
+      .then((user) => {
+        if (JSON.stringify(likes).includes(JSON.stringify(user._id))) {
           api.deleteLike(_id).then((data) => {
             likes = data.likes;
             cardElement.querySelector(".card__likes-counter").textContent =
