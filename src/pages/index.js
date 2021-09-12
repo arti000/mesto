@@ -83,8 +83,12 @@ Promise.all([api.getUserInfo(), api.getInitialCards()]).then((data) => {
               formElementSelector,
               {
                 formSubmit: () => {
-                  api.deleteCard(cardData._id);
-                  card.remove();
+                  api.deleteCard(cardData._id)
+                  .finally(() => {
+                      card.remove();
+                      confirmPopup.close();
+                    }
+                  )
                 },
               }
             );
@@ -134,8 +138,12 @@ Promise.all([api.getUserInfo(), api.getInitialCards()]).then((data) => {
               formElementSelector,
               {
                 formSubmit: () => {
-                  api.deleteCard(data._id);
-                  card.remove();
+                  api.deleteCard(data._id)
+                  .finally(() => {
+                      card.remove();
+                      confirmPopup.close();
+                    }
+                  )
                 },
               }
             );
