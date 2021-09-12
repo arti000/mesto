@@ -30,11 +30,10 @@ export const updateAvatarOpenButtonElement = document.querySelector(
   ".profile__edit-photo-btn"
 );
 
-//Селектор кнопки закрытия попапа
-export const closeButtonSelector = ".popup__close";
+//Селектор кнопки submit
+export const submitButtonSelector = ".popup__submit";
 
 //Селекторы полей
-export const inputSelector = ".popup__input";
 const inputTitleSelector = ".popup__input_type_title";
 const inputSubtitleSelector = ".popup__input_type_subtitle";
 
